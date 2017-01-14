@@ -1,0 +1,43 @@
+<%@ page language="java" pageEncoding="UTF-8" %>
+<%@ include file="include/begin-html.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- Основное содержимое -->
+<div class="page-header">
+    <h2>Система заявок</h2><br>
+        <h4>Статистика</h4>
+    <br>
+    <h5>Всего заявок в системе:${allAds}</h5>
+
+    <h5>
+        &nbsp;Открытые заявки:
+        ${openAds}</h5>
+    <h5>
+        &#9;Из них выполняются:
+        ${workingAds}</h5>
+    <h5>
+        &#9;Всего заявок выполнено:
+        ${closedAds}</h5>
+
+    <br><br>
+    <h5>
+        Всего пользователей в системе:
+        ${countOfUsers}</h5>
+    <h5>
+        &#9;Менеджеров:
+        ${countOfManagers}</h5>
+    <h5>
+        &#9;Исполнителей:
+        ${countOfWorkers}</h5>
+    <h5>
+        &#9;Директор: ${director}
+        </h5>
+
+
+
+</div>
+
+
+<%@ include file="include/end-html.jsp" %>
+
+
+<%@ include file="include/end-html.jsp" %>
