@@ -1,6 +1,7 @@
 package com.pvt.dao;
 
 import com.pvt.beans.Priority;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PriorityDAO extends AbstractDAO implements InterfaceDAO<Priority> {
-
+    private static Logger log = Logger.getLogger(PriorityDAO.class);
     @Override
     public Priority read(int id) {
         List<Priority> priorities = getAll("WHERE ID=" + id + " LIMIT 0,1");

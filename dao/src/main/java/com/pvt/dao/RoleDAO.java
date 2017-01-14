@@ -1,6 +1,7 @@
 package com.pvt.dao;
 
 import com.pvt.beans.Role;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoleDAO extends AbstractDAO implements InterfaceDAO<Role> {
-
-    public int MANAGER=1;
-    public int WORKER=2;
-    public int DIRECTOR=3;
+    private static Logger log = Logger.getLogger(RoleDAO.class);
+    public int MANAGER = 1;
+    public int WORKER = 2;
+    public int DIRECTOR = 3;
 
     @Override
     public Role read(int id) {
@@ -56,9 +57,9 @@ public class RoleDAO extends AbstractDAO implements InterfaceDAO<Role> {
                 roles.add(role);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return roles;
     }

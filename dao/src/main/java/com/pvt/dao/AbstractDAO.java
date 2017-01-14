@@ -1,11 +1,14 @@
 package com.pvt.dao;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class AbstractDAO {
+    private static Logger log = Logger.getLogger(AbstractDAO.class);
     public String lastSQL="";
     //общая команда для Create Update Delete
     protected int executeUpdate(String sql) {
@@ -20,9 +23,9 @@ public abstract class AbstractDAO {
                 if (resultSet.next()) result = resultSet.getInt(1);
             }
         } catch (SQLException sqle) {
-          sqle.printStackTrace();
+          log.error(sqle);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return result;
     }

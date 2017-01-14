@@ -1,6 +1,7 @@
 package com.pvt.dao;
 
 import com.mysql.fabric.jdbc.FabricMySQLDriver;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -8,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionCreator {
+    private static Logger log = Logger.getLogger(ConnectionCreator.class);
     public static final String URL_DB = "jdbc:mysql://127.0.0.1:2016/dubatovka_helpdesk" +
             "?useUnicode=true&characterEncoding=UTF-8";
     public static final String USER_DB = "root";
@@ -19,8 +21,7 @@ public class ConnectionCreator {
             driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("error. not register driver");
+            log.error("error. not register driver" + e);
         }
     }
 

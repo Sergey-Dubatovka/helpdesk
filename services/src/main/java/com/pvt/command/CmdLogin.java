@@ -1,16 +1,15 @@
 package com.pvt.command;
 
-
-
 import com.pvt.beans.User;
 import com.pvt.dao.DAO;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-
 public class CmdLogin extends Action {
+    private static Logger log = Logger.getLogger(CmdLogin.class);
     @Override
     Action execute(HttpServletRequest req) {
         User user = new User();
@@ -19,6 +18,7 @@ public class CmdLogin extends Action {
                 user.setLogin(Form.getString(req, "Login", Patterns.LOGIN));
                 user.setPassword(Form.getString(req, "Password", Patterns.PASSWORD));
             } catch (Exception e) {
+                log.error(e);
                 req.setAttribute(Messages.msgError, "NO VALID FIELDS");
                 return null;
             }
@@ -37,7 +37,6 @@ public class CmdLogin extends Action {
                 return Actions.PROFILE.action;
             }
             req.setAttribute(Messages.msgError, "NO SUCH USER");
-
 
         }
         return null;

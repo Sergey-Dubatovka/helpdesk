@@ -1,6 +1,7 @@
 package com.pvt.dao;
 
 import com.pvt.beans.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO extends AbstractDAO implements InterfaceDAO<User> {
+    private static Logger log = Logger.getLogger(UserDAO.class);
 
     @Override
     public User read(int id) {
@@ -57,8 +59,9 @@ public class UserDAO extends AbstractDAO implements InterfaceDAO<User> {
                 users.add(user);
             }
         } catch (SQLException e) {
+            log.error(e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return users;
     }

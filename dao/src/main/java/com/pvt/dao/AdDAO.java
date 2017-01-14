@@ -3,6 +3,7 @@ package com.pvt.dao;
 
 
 import com.pvt.beans.Ad;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ import java.util.List;
 
 
 public class AdDAO extends AbstractDAO implements InterfaceDAO<Ad> {
-
+    private static Logger log = Logger.getLogger(AdDAO.class);
     @Override
     public Ad read(int id) {
         List<Ad> ads = getAll("WHERE ID=" + id + " LIMIT 0,1");
@@ -76,9 +77,9 @@ public class AdDAO extends AbstractDAO implements InterfaceDAO<Ad> {
                 ads.add(ad);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           log.error(e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return ads;
     }

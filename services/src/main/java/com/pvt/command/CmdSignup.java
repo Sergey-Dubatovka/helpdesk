@@ -2,12 +2,15 @@ package com.pvt.command;
 
 import com.pvt.beans.User;
 import com.pvt.dao.DAO;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class CmdSignup extends Action {
+    private static Logger log = Logger.getLogger(CmdSignup.class);
     @Override
     Action execute(HttpServletRequest req) {
+
         User user = new User();
         try {
             user.setID(0);
@@ -17,6 +20,7 @@ public class CmdSignup extends Action {
             user.setFk_role(1);
 
         } catch (Exception e) {
+            log.error(e);
             req.setAttribute(Messages.msgError, "NO VALID FIELDS");
             return null;
         }

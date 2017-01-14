@@ -1,8 +1,8 @@
 package com.pvt.dao;
 
 
-
 import com.pvt.beans.Objects;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectsDAO extends AbstractDAO implements InterfaceDAO<Objects> {
+    private static Logger log = Logger.getLogger(ObjectsDAO.class);
+
     @Override
     public Objects read(int id) {
         List<Objects> objList = getAll("WHERE ID=" + id + " LIMIT 0,1");
@@ -41,22 +43,22 @@ public class ObjectsDAO extends AbstractDAO implements InterfaceDAO<Objects> {
 
     @Override
     public List<Objects> getAll(String WhereAndOrder) {
-        List<Objects> objectsList =new ArrayList<>();
+        List<Objects> objectsList = new ArrayList<>();
         String sql = "SELECT * FROM objects " + WhereAndOrder + " ;";
-      try (Connection connection= ConnectionCreator.getConnection();
-           Statement statement=connection.createStatement()){
-          ResultSet rs=statement.executeQuery(sql);
-          while (rs.next()){
-              Objects object=new Objects();
-              object.setID(rs.getInt("ID"));
-              object.setZia(rs.getString("zia"));
-              objectsList.add(object);
-          }
-      } catch (SQLException e) {
-          e.printStackTrace();
-      } catch (ClassNotFoundException e) {
-          e.printStackTrace();
-      }
+        try (Connection connection = ConnectionCreator.getConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Objects object = new Objects();
+                object.setID(rs.getInt("ID"));
+                object.setZia(rs.getString("zia"));
+                objectsList.add(object);
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        } catch (ClassNotFoundException e) {
+            log.error(e);
+        }
         return objectsList;
     }
 }

@@ -17,6 +17,7 @@ public enum Actions {
 protected Action action=null;
 
 static Action defineFrom(HttpServletRequest req){
+
     Action result;
 
     String cmdName = req.getParameter("command").toUpperCase();
