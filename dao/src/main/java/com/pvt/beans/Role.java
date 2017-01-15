@@ -41,4 +41,21 @@ public class Role {
                 '}';
     }
 
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        if (ID != role.ID) return false;
+        return roleName != null ? roleName.equals(role.roleName) : role.roleName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ID;
+        result = 31 * result + (roleName != null ? roleName.hashCode() : 0);
+        return result;
+    }
+}

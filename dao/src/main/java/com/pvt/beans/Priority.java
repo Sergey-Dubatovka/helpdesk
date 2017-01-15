@@ -40,4 +40,21 @@ public class Priority {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Priority priority = (Priority) o;
+
+        if (ID != priority.ID) return false;
+        return priorityName != null ? priorityName.equals(priority.priorityName) : priority.priorityName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ID;
+        result = 31 * result + (priorityName != null ? priorityName.hashCode() : 0);
+        return result;
+    }
 }

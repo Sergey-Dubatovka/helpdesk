@@ -23,7 +23,7 @@ public class PriorityDAO extends AbstractDAO implements InterfaceDAO<Priority> {
 
     @Override
     public boolean create(Priority priority) {
-        String createPrioritySQL = String.format("insert into priority(priorityName) values ('%s')", priority.getPriorityName());
+        String createPrioritySQL = String.format("insert into priority (priorityName) values ('%s')", priority.getPriorityName());
         priority.setID(executeUpdate(createPrioritySQL));
         return (priority.getID() > 0);
     }

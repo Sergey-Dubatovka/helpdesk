@@ -41,4 +41,21 @@ public class Objects {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Objects objects = (Objects) o;
+
+        if (ID != objects.ID) return false;
+        return zia != null ? zia.equals(objects.zia) : objects.zia == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ID;
+        result = 31 * result + (zia != null ? zia.hashCode() : 0);
+        return result;
+    }
 }

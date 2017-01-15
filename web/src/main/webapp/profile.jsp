@@ -1,9 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="include/begin-html.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<head>
-    <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
-</head>
+
 <body>
 <legend>Профиль пользователя: ${user.login}</legend>
 <fieldset>

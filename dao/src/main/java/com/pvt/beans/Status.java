@@ -41,4 +41,21 @@ public class Status {
                 '}';
     }
 
-   }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Status status = (Status) o;
+
+        if (ID != status.ID) return false;
+        return statusName != null ? statusName.equals(status.statusName) : status.statusName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ID;
+        result = 31 * result + (statusName != null ? statusName.hashCode() : 0);
+        return result;
+    }
+}

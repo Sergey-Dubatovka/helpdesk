@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<form class="form-horizontal" action="/do?command=SignUp" method="post">
+<form class="form-horizontal" action="do?command=SIGNUP" method="post">
 <fieldset>
 
 <!-- Form Name -->

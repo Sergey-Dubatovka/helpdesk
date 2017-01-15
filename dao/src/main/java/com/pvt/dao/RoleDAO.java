@@ -12,9 +12,6 @@ import java.util.List;
 
 public class RoleDAO extends AbstractDAO implements InterfaceDAO<Role> {
     private static Logger log = Logger.getLogger(RoleDAO.class);
-    public int MANAGER = 1;
-    public int WORKER = 2;
-    public int DIRECTOR = 3;
 
     @Override
     public Role read(int id) {
@@ -27,12 +24,12 @@ public class RoleDAO extends AbstractDAO implements InterfaceDAO<Role> {
     public boolean create(Role role) {
         String createRoleSQL = String.format("insert into role(roleName) values ('%s')", role.getRoleName());
         role.setID(executeUpdate(createRoleSQL));
-        return (0 > role.getID());
+        return (0 < role.getID());
     }
 
     @Override
     public boolean update(Role role) {
-        String updateRoleSQL = String.format("UPDATE role SET zia = '%s' WHERE role.ID='%d'",
+        String updateRoleSQL = String.format("UPDATE role SET roleName = '%s' WHERE role.ID='%d'",
                 role.getRoleName(), role.getID());
         return (0 < executeUpdate(updateRoleSQL));
     }
