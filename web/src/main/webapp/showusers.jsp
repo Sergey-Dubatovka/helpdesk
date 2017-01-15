@@ -1,7 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="include/begin-html.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<head>
+    <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
 <div class="row">
     <b>
         <div class=col-sm-1>${users==null?                " "                :                "ID"                }</div>
@@ -110,5 +113,5 @@
         </tr>
     </c:forEach>
 </table>
-
+</body>
 <%@ include file="include/end-html.jsp" %>

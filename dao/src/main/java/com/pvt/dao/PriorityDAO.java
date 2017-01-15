@@ -57,9 +57,9 @@ public class PriorityDAO extends AbstractDAO implements InterfaceDAO<Priority> {
             }
 
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            log.error(sqle);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+          log.error(e);
         }
         return priorities;
     }
