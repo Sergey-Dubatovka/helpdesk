@@ -15,8 +15,8 @@ public class FrontController extends HttpServlet{
         Action action=Actions.defineFrom(req);
         Action nexAction=action.execute(req);
         if (nexAction==null) {
-        RequestDispatcher r=getServletContext().getRequestDispatcher(action.getJsp());
-        r.forward(req,resp);
+        RequestDispatcher reqDispatcher=getServletContext().getRequestDispatcher(action.getJsp());
+        reqDispatcher.forward(req,resp);
         }
         else
            resp.sendRedirect("do?command="+nexAction);
@@ -26,7 +26,7 @@ public class FrontController extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Action action=Actions.defineFrom(req);
         action.execute(req);
-        RequestDispatcher r = getServletContext().getRequestDispatcher(action.getJsp());
-        r.forward(req,resp);
+        RequestDispatcher reqDispatcher = getServletContext().getRequestDispatcher(action.getJsp());
+        reqDispatcher.forward(req,resp);
     }
 }

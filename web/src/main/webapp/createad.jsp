@@ -2,7 +2,7 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="include/begin-html.jsp" %>
 
-<form class="form-horizontal" action="/do?command=CreateAd" method="post">
+<form class="form-horizontal" action="do?command=CREATEAD" method="post">
     <fieldset>
 
         <!-- Form Name -->
