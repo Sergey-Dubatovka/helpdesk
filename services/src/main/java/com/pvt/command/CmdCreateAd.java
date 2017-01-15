@@ -13,12 +13,7 @@ import java.util.List;
 public class CmdCreateAd extends Action {
     @Override
     Action execute(HttpServletRequest req) {
-//        HttpSession session=req.getSession();
-//        try{
-//            if () {
-//                session.invalidate();
-//                return Actions.LOGIN.action;
-//            }
+
         Ad ad = new Ad();
         List<Objects> objects = DAO.getDAO().objects.getAll("");
         req.setAttribute("objects", objects);

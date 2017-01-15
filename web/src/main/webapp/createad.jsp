@@ -1,7 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="include/begin-html.jsp" %>
+<head>
+    <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
+</head>
 
+<div>
 <form class="form-horizontal" action="do?command=CREATEAD" method="post">
     <fieldset>
 
@@ -47,5 +51,5 @@
         </div>
     </fieldset>
 </form>
-
+</div>
 <%@ include file="include/end-html.jsp" %>

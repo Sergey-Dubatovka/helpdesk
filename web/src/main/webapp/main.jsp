@@ -2,20 +2,24 @@
 <%@ include file="include/begin-html.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Основное содержимое -->
+<head>
+    <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
 <div class="page-header">
-    <h2>Система заявок</h2><br>
+    <h3>Система заявок</h3><br>
         <h4>Статистика</h4>
     <br>
     <h5>Всего заявок в системе:${allAds}</h5>
 
     <h5>
-        &nbsp;Открытые заявки:
+       Открытые заявки:
         ${openAds}</h5>
     <h5>
-        &#9;Из них выполняются:
+        Из них выполняются:
         ${workingAds}</h5>
     <h5>
-        &#9;Всего заявок выполнено:
+        Всего заявок выполнено:
         ${closedAds}</h5>
 
     <br><br>
@@ -23,19 +27,19 @@
         Всего пользователей в системе:
         ${countOfUsers}</h5>
     <h5>
-        &#9;Менеджеров:
+        Менеджеров:
         ${countOfManagers}</h5>
     <h5>
-        &#9;Исполнителей:
+        Исполнителей:
         ${countOfWorkers}</h5>
     <h5>
-        &#9;Директор: ${director}
+        Директор: ${director}
         </h5>
 
 
 
 </div>
-
+</body>
 
 <%@ include file="include/end-html.jsp" %>
 
