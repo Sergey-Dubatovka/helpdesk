@@ -26,7 +26,7 @@ public class CmdShowUsers extends Action {
             User userSession = (User) req.getSession().getAttribute("user");
 
             DAO dao = DAO.getDAO();
-            if (userSession.getFk_role() == 3) {
+            if (userSession.getFk_role() == IRole.roleDirector) {
                 if (Form.isPost(req)) {
                     User user = new User();
                     try {
