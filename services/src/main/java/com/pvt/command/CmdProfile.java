@@ -1,7 +1,6 @@
 package com.pvt.command;
 
 
-
 import com.pvt.beans.*;
 import com.pvt.dao.DAO;
 
@@ -17,7 +16,9 @@ public class CmdProfile extends Action {
             User user = (User) req.getSession().getAttribute("user");
 
             List<Ad> ads = dao.ad.getAll("where fk_user=" + user.getID() + ";");
-            req.setAttribute("ads", ads);
+            if (ads.size() > 0) {
+                req.setAttribute("ads", ads);
+            }
             List<Status> statuses = dao.status.getAll("");
             List<Priority> priorities = dao.priority.getAll("");
             List<Objects> objectses = dao.objects.getAll("");
@@ -25,7 +26,7 @@ public class CmdProfile extends Action {
             req.getSession().setAttribute("statuses", statuses);
             req.getSession().setAttribute("priorities", priorities);
             req.getSession().setAttribute("objectses", objectses);
-         //   req.getSession().setAttribute("users", usersList);
+            //   req.getSession().setAttribute("users", usersList);
 
             if (Form.isPost(req)) {
                 Ad ad = new Ad();

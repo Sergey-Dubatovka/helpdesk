@@ -1,6 +1,7 @@
 package com.pvt.command;
 
 
+import com.pvt.beans.IRole;
 import com.pvt.beans.User;
 import com.pvt.dao.DAO;
 
@@ -38,9 +39,11 @@ public class CmdShowUsers extends Action {
                         user.setFk_role(Form.getInt(req, "fk_Role"));
 
                         //попытка недопустить изменения должности последнему директору
-//                        if (dao.user.getCountOfDirector() == 1 && userRead.getFk_role() == 3 && user.getFk_role() != 3) {
-//                            user.setFk_role(3);
-//                        }
+                        if (dao.user.getCountOfDirector() == 1
+                                && userRead.getFk_role() == IRole.roleDirector
+                                && user.getFk_role() != IRole.roleDirector) {
+                            user.setFk_role(3);
+                        }
 
                         req.setAttribute(Messages.msgMessage, user);
                         if (user.getID() > 0) {

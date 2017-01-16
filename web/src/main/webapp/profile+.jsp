@@ -5,7 +5,7 @@
     <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
 </head>
 
-<body>
+<div>
 <form class="form-horizontal">
     <fieldset>
         <!-- Form Name -->
@@ -37,7 +37,7 @@
     </fieldset>
 
 </form>
-</body>
+</div>
 <%@ include file="include/end-html.jsp" %>
 
 

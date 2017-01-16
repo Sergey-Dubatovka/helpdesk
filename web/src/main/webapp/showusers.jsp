@@ -2,7 +2,6 @@
 <%@ include file="include/begin-html.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<body>
 <div class="row">
     <b>
         <div class=col-sm-1>${users==null?                " "                :                "ID"                }</div>
@@ -16,7 +15,7 @@
                 :
                 "Пароль"
                 }</div>
-        <div class=col-sm-2>${users==null?
+        <div class=col-sm-1>${users==null?
                 " "
                 :
                 "Email"
@@ -111,5 +110,5 @@
         </tr>
     </c:forEach>
 </table>
-</body>
+
 <%@ include file="include/end-html.jsp" %>

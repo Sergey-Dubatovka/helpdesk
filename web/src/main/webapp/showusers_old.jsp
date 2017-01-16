@@ -4,7 +4,7 @@
 <head>
     <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
+<div>
 
 <p>Список пользователей. </p>
 <table width="75%" border="1" cellpadding="1" cellspacing="1">
@@ -40,7 +40,7 @@
 
     </fieldset>
 </form>
-</body>
+</div>
 
 <%@ include file="include/end-html.jsp" %>
 

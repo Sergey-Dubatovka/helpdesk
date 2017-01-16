@@ -5,7 +5,8 @@
 <head>
     <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
+
+<div>
 <div class="page-header">
     <h3>Система заявок</h3><br>
         <h4>Статистика</h4>
@@ -39,7 +40,7 @@
 
 
 </div>
-</body>
+</div>
 
 <%@ include file="include/end-html.jsp" %>
 

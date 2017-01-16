@@ -2,8 +2,8 @@
 <%@ include file="include/begin-html.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<body>
 <legend>Профиль пользователя: ${user.login}</legend>
+
 <fieldset>
     <h4>Открытые Вами заявки</h4>
     <div class="row">
@@ -22,7 +22,7 @@
                 :
                 "<b>Описание</b>"
                 }</div>
-        <div class="col-sm-2">${ads==null?
+        <div class="col-sm-1">${ads==null?
                 " "
                 :
                 "<b>ЗИА</b>"
@@ -99,7 +99,7 @@
     </c:forEach>
 
 </fieldset>
-</body>
+
 
 <%@ include file="include/end-html.jsp" %>
 

@@ -3,7 +3,7 @@
 <head>
     <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
+<div>
 <form class="form-horizontal" action="do?command=LOGOUT" method="POST">
 
    <fieldset>
@@ -22,5 +22,5 @@
 
     </fieldset>
 </form>
-</body>
+</div>
 <%@ include file="include/end-html.jsp" %>
