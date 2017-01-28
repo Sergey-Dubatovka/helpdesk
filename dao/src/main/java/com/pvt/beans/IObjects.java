@@ -23,6 +23,4 @@ public interface IObjects {
     int MnsOdincova = 17;
     int SvtLenina = 18;
     int brvGagarina = 19;
-
-
 }

@@ -14,7 +14,7 @@ public class ConnectionCreator {
     public static final String URL_DB = "jdbc:mysql://127.0.0.1:2016/dubatovka_helpdesk" +
             "?useUnicode=true&characterEncoding=UTF-8";
     public static final String USER_DB = "root";
-    public static final String PASSWORD_DB = "";
+    public static final String PASSWORD_DB = "root";
 
     static {
         Driver driver = null;

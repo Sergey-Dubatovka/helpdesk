@@ -8,11 +8,31 @@ import java.util.List;
 public interface IService <T> {
     T read(int id);
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     boolean create(T entity);
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     boolean update(T entity);
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     boolean delete(T entity);
 
+    /**
+     *
+     * @param WhereAndOrder
+     * @return
+     */
     List<T> getAll(String WhereAndOrder);
 }
