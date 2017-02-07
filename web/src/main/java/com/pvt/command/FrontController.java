@@ -1,5 +1,7 @@
 package com.pvt.command;
 
+import com.pvt.dao.util.HibernateUtil;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +26,7 @@ public class FrontController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Action action=Actions.defineFrom(req);
         action.execute(req);
         RequestDispatcher reqDispatcher = getServletContext().getRequestDispatcher(action.getJsp());

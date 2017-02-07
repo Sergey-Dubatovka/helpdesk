@@ -1,57 +1,55 @@
 package com.pvt;
 
-import com.pvt.beans.User;
-import com.pvt.dao.UserDAO;
+import com.pvt.beans.UserRole;
+import com.pvt.dao.UserRoleDAO;
 import com.pvt.dao.exceptions.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by sssergey83 on 16.01.2017.
  */
-public class UserService implements IService<User> {
-// и здесь тоже сингтоны
-    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
-    private static UserDAO dao = UserDAO.getDao();
+public class UserRoleService implements IService<UserRole> {
+// сделай синглтоны
+    private static final Logger LOG = LoggerFactory.getLogger(UserRoleService.class);
+    private static UserRoleDAO dao = UserRoleDAO.getDao();
 
     @Override
-    public User saveOrUpdate(User user) {
+    public UserRole saveOrUpdate(UserRole userRole) {
         try {
-            util.getSession();
             util.beginTransaction();
-            dao.saveOrUpdate(user);
-            LOG.info("SaveOrUpdate commit:" + user);
+            dao.saveOrUpdate(userRole);
+            LOG.info("SaveOrUpdate commit:" + userRole);
             util.commit();
         } catch (DaoException e) {
             LOG.error(e.getMessage(), e);
             util.rollback();
             return null;
         }
-        return user;
+        return userRole;
     }
 
     @Override
-    public User get(Serializable id) {
-        User user;
+    public UserRole get(Serializable id) {
+        UserRole userRole;
         try {
             util.beginTransaction();
-            user = dao.get(id);
-            LOG.info("Get commit:" + user);
+            userRole = dao.get(id);
+            LOG.info("Get commit:" + userRole);
             util.commit();
         } catch (DaoException e) {
             LOG.error("Error get commit:" + e.getMessage(), e);
             util.rollback();
             return null;
         }
-        return user;
+        return userRole;
     }
 
     @Override
-    public User load(Serializable id) {
-        User user = null;
+    public UserRole load(Serializable id) {
+        UserRole user = null;
         try {
             util.beginTransaction();
             user = dao.load(id);
@@ -66,14 +64,14 @@ public class UserService implements IService<User> {
     }
 
     @Override
-    public boolean delete(User user) {
+    public boolean delete(UserRole userRole) {
         try {
             util.beginTransaction();
-            dao.delete(user);
-            LOG.info("Delete commit:" + user);
+            dao.delete(userRole);
+            LOG.info("Delete commit:" + userRole);
             util.commit();
         } catch (DaoException e) {
-            LOG.error("Error delete user" + e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
             util.rollback();
             return false;
         }
@@ -81,17 +79,18 @@ public class UserService implements IService<User> {
     }
 
     @Override
-    public List<User> find(String login) {
+    public List<UserRole> find(String hql) {
         try {
             util.beginTransaction();
-            List<User> users = dao.find(login);
-            LOG.info("User find() commit.");
+            List<UserRole> roles = dao.find(hql);
+            LOG.info("UserRole find() commit.");
             util.commit();
-            return users;
+            return roles;
         } catch (DaoException e) {
-            LOG.error("Error User find() commit." + e.getMessage(), e);
+            LOG.error("Error UserRole find() commit." + e.getMessage(), e);
             util.rollback();
             return null;
         }
     }
+
 }

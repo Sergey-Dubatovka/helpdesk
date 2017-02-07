@@ -1,38 +1,25 @@
 package com.pvt;
 
+import com.pvt.dao.util.HibernateUtil;
+import com.pvt.exceptions.ServiceException;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by sssergey83 on 16.01.2017.
  */
 public interface IService <T> {
-    T read(int id);
 
-    /**
-     *
-     * @param entity
-     * @return
-     */
-    boolean create(T entity);
+    HibernateUtil util = HibernateUtil.getHibernateUtil();
 
-    /**
-     *
-     * @param entity
-     * @return
-     */
-    boolean update(T entity);
+    T saveOrUpdate(T t);
 
-    /**
-     *
-     * @param entity
-     * @return
-     */
-    boolean delete(T entity);
+    T get(Serializable id);
 
-    /**
-     *
-     * @param WhereAndOrder
-     * @return
-     */
-    List<T> getAll(String WhereAndOrder);
+    T load(Serializable id);
+
+    boolean delete(T t);
+
+    List<T> find(String where);
 }

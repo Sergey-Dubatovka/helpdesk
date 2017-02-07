@@ -1,45 +1,49 @@
 package com.pvt.command;
 
+import com.pvt.UserService;
 import com.pvt.beans.User;
-import com.pvt.dao.DAO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class CmdLogin extends Action {
-    private static Logger log = Logger.getLogger(CmdLogin.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CmdLogin.class);
+
     @Override
     Action execute(HttpServletRequest req) {
-        User user = new User();
+        User loggedUser = new User();
         if (Form.isPost(req)) {
             try {
-                user.setLogin(Form.getString(req, "Login", Patterns.LOGIN));
-                user.setPassword(Form.getString(req, "Password", Patterns.PASSWORD));
+                LOG.info("Post Form loggedUser");
+                loggedUser.setLogin(Form.getString(req, "Login", Patterns.LOGIN));
+                loggedUser.setPassword(Form.getString(req, "Password", Patterns.PASSWORD));
+
             } catch (Exception e) {
-                log.error(e);
+                LOG.error(e.getMessage());
                 req.setAttribute(Messages.msgError, "NO VALID FIELDS");
                 return null;
             }
-            DAO dao = DAO.getDAO();
-            List<User> users = dao.user.getAll(String.format("where login='%s' and password='%s'",
-                    user.getLogin(), user.getPassword()
-            ));
+            UserService userService = new UserService();
+            //
+            List<User> users = userService.find(loggedUser.getLogin());
+
 
             if (users.size() > 0) {
-                user = users.get(0);
-
-                HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                session.setAttribute("userRole", user.getFk_role());
-                session.setMaxInactiveInterval(60*5);
-                return Actions.PROFILE.action;
+                if (users.get(0).getPassword().equals(loggedUser.getPassword())) {
+                    loggedUser = users.get(0);
+                    HttpSession session = req.getSession();
+                    session.setAttribute("user", loggedUser);
+                    session.setAttribute("userRole", loggedUser.getUserRole());
+                    session.setMaxInactiveInterval(60 * 5);
+                    return Actions.PROFILE.action;
+                } else req.setAttribute(Messages.msgError, "NO SUCH USER");
             }
-            req.setAttribute(Messages.msgError, "NO SUCH USER");
 
-        }
-        return null;
+        }return null;
     }
 }
 

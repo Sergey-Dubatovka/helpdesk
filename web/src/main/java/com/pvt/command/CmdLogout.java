@@ -1,9 +1,6 @@
 package com.pvt.command;
 
-
-
 import com.pvt.beans.User;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

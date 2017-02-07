@@ -1,36 +1,52 @@
 package com.pvt.command;
 
+import com.pvt.UserRoleService;
+import com.pvt.UserService;
 import com.pvt.beans.User;
-import com.pvt.dao.DAO;
-import org.apache.log4j.Logger;
+import com.pvt.beans.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class CmdSignup extends Action {
-    private static Logger log = Logger.getLogger(CmdSignup.class);
+    private static Logger log = LoggerFactory.getLogger(CmdSignup.class);
+    private Long managerId = 1L;
+
     @Override
     Action execute(HttpServletRequest req) {
+        User newUser;
 
-        User user = new User();
-        try {
-            user.setID(0);
-            user.setLogin(Form.getString(req, "login", Patterns.LOGIN));
-            user.setPassword(req.getParameter("passwordinput"));
-            user.setEmail(req.getParameter("email"));
-            user.setFk_role(1);
+        if (Form.isPost(req)) {
+            UserService userService = new UserService();
 
-        } catch (Exception e) {
-            log.error(e);
-            req.setAttribute(Messages.msgError, "NO VALID FIELDS");
-            return null;
+            UserRoleService userRoleService = new UserRoleService();
+            UserRole manager = userRoleService.get(managerId);
+
+            String pass = req.getParameter("passwordinput");
+            String email = req.getParameter("email");
+
+            try {
+                String login = Form.getString(req, "login", Patterns.LOGIN);
+
+                newUser = new User(login, pass, email, manager);
+
+            } catch (Exception e) {
+                log.error("", e);
+                req.setAttribute(Messages.msgError, "NO VALID FIELDS");
+                return null;
+            }
+            if (newUser != null && pass != null && email != null) {
+                log.info("creating new User");
+                userService.saveOrUpdate(newUser);
+                req.setAttribute(Messages.msgMessage, "USER ADDED");
+                return Actions.LOGIN.action;
+            } else {
+                req.setAttribute(Messages.msgError, "FILL ERROR");
+                return null;
+            }
         }
-        DAO dao = DAO.getDAO();
-        if (user.getLogin() != null && user.getPassword() != null && dao.user.create(user)) {
-            req.setAttribute(Messages.msgMessage, "USER ADDED");
-            return Actions.LOGIN.action;
-        } else
-            req.setAttribute(Messages.msgError, "FILL ERROR");
-        //return Actions.SIGNUP.action;
         return null;
     }
 }
+

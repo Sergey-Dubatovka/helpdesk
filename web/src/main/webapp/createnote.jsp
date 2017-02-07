@@ -6,7 +6,7 @@
 </head>
 
 <div>
-<form class="form-horizontal" action="do?command=CREATEAD" method="post">
+<form class="form-horizontal" action="do?command=CREATENOTE" method="post">
     <fieldset>
 
         <!-- Form Name -->
@@ -32,11 +32,22 @@
 
         <!-- Select Basic -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="objects">ЗИА</label>
+            <label class="col-md-4 control-label" for="gamingClubs">ЗИА</label>
             <div class="col-md-4">
-                <select id="objects" name="objects" class="form-control">
-                    <c:forEach var="objects" items="${objects}">
-                        <option value="${objects.ID}">${objects.zia}</option>
+                <select id="gamingClubs" name="gamingClubs" class="form-control">
+                    <c:forEach var="gamingClubs" items="${gamingClubs}">
+                        <option value="${gamingClubs.GAMING_CLUB_ID}">${gamingClubs.GAMING_CLUB_NAME}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="gamingClubs">ЗИА</label>
+            <div class="col-md-4">
+                <select id="gamingClubs" name="gamingClubs" class="form-control">
+                    <c:forEach var="gamingClubs" items="${gamingClubs}">
+                        <option value="${gamingClubs.GAMING_CLUB_ID}">${gamingClubs.GAMING_CLUB_NAME}</option>
                     </c:forEach>
                 </select>
             </div>
@@ -46,7 +57,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label" for=""></label>
             <div class="col-md-3">
-                <button id="" name="addAd" class="btn btn-primary">Добавить заявку</button>
+                <button id="" name="addNote" class="btn btn-primary">Добавить заявку</button>
             </div>
         </div>
     </fieldset>
