@@ -1,13 +1,14 @@
 package com.pvt.beans;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,21 +18,18 @@ import java.util.Set;
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Getter
-    @Setter
+    @Getter @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLE_ID", unique = true)
     private Long roleId;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(name = "ROLE_NAME")
     private String roleName;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @OneToMany(mappedBy = "userRole")
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new ArrayList<>();
 
     public UserRole(String roleName) {
         this.roleName = roleName;

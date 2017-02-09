@@ -1,5 +1,6 @@
 package com.pvt;
 
+import com.pvt.beans.Note;
 import com.pvt.beans.NoteStatus;
 import com.pvt.dao.NoteStatusDAO;
 import com.pvt.dao.exceptions.DaoException;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
@@ -15,6 +17,15 @@ import java.util.List;
 public class NoteStatusService implements IService<NoteStatus> {
     private static final Logger LOG = LoggerFactory.getLogger(NoteStatusService.class);
     private static NoteStatusDAO dao = NoteStatusDAO.getDao();
+
+    private static NoteStatusService service = null;
+
+    public static synchronized NoteStatusService getService() {
+        if (service == null) {
+            service = new NoteStatusService();
+        }
+        return service;
+    }
 
     @Override
     public NoteStatus saveOrUpdate(NoteStatus noteStatus) {
@@ -86,6 +97,20 @@ public class NoteStatusService implements IService<NoteStatus> {
             return statuses;
         } catch (DaoException e) {
             LOG.error("Error NoteStatus find() commit." + e.getMessage(), e);
+            util.rollback();
+            return null;
+        }
+    }
+    @Override
+    public Set<NoteStatus> getAll()  {
+        try {
+            util.beginTransaction();
+            Set<NoteStatus> statuses = dao.getAll();
+            LOG.info("NoteStatus find() commit.");
+            util.commit();
+            return statuses;
+        } catch (DaoException e) {
+            LOG.error("Error NotePriority find() commit." + e.getMessage(), e);
             util.rollback();
             return null;
         }

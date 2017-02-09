@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CmdSignup extends Action {
     private static Logger log = LoggerFactory.getLogger(CmdSignup.class);
-    private Long managerId = 1L;
+    private Integer managerId = 1;
 
     @Override
     Action execute(HttpServletRequest req) {

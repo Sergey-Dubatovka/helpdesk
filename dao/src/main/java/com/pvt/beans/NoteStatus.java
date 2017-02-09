@@ -1,11 +1,14 @@
 package com.pvt.beans;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +30,7 @@ public class NoteStatus implements Serializable{
 
     @Getter @Setter
     @OneToMany(mappedBy = "noteStatus")
-    private Set<Note> notes = new HashSet<>();
+    private List<Note> notes = new ArrayList<>();
 
     public NoteStatus(String statusName) {
         this.statusName = statusName;

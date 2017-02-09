@@ -7,14 +7,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
  */
 public class UserRoleService implements IService<UserRole> {
-// сделай синглтоны
+
     private static final Logger LOG = LoggerFactory.getLogger(UserRoleService.class);
     private static UserRoleDAO dao = UserRoleDAO.getDao();
+
+    private static UserRoleService service = null;
+
+    public static synchronized UserRoleService getService() {
+        if (service == null) {
+            service = new UserRoleService();
+        }
+        return service;
+    }
 
     @Override
     public UserRole saveOrUpdate(UserRole userRole) {
@@ -91,6 +101,11 @@ public class UserRoleService implements IService<UserRole> {
             util.rollback();
             return null;
         }
+    }
+
+    @Override
+    public Set<UserRole> getAll() {
+        return null;
     }
 
 }

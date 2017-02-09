@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
@@ -16,6 +17,15 @@ public class GamingClubService implements IService<GamingClub> {
 
     private static final Logger LOG = LoggerFactory.getLogger(GamingClubService.class);
     private static GamingClubDAO dao = GamingClubDAO.getDao();
+
+    private static GamingClubService service = null;
+
+    public static synchronized GamingClubService getService() {
+        if (service == null) {
+            service = new GamingClubService();
+        }
+        return service;
+    }
 
     @Override
     public GamingClub saveOrUpdate(GamingClub gamingClub) {
@@ -96,13 +106,12 @@ public class GamingClubService implements IService<GamingClub> {
 
 
     /**
-     *
      * @return list of All Gaming clubs
      */
-        public List<GamingClub> getAll() {
+    public Set<GamingClub> getAll() {
         try {
             util.beginTransaction();
-            List<GamingClub> gamingClubs = dao.getAll();
+            Set<GamingClub> gamingClubs = dao.getAll();
             LOG.info("gamingClubs find() commit.");
             util.commit();
             return gamingClubs;

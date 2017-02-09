@@ -5,11 +5,12 @@ import com.pvt.exceptions.ServiceException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
  */
-public interface IService <T> {
+public interface IService<T> {
 
     HibernateUtil util = HibernateUtil.getHibernateUtil();
 
@@ -22,4 +23,6 @@ public interface IService <T> {
     boolean delete(T t);
 
     List<T> find(String where);
+
+    Set<T> getAll();
 }

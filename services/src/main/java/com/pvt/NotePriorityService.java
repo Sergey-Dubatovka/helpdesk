@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
@@ -15,6 +16,15 @@ import java.util.List;
 public class NotePriorityService implements IService<NotePriority> {
     private static final Logger LOG = LoggerFactory.getLogger(NotePriorityService.class);
     private static NotePriorityDAO dao =  NotePriorityDAO.getDao();
+
+    private static NotePriorityService service = null;
+
+    public static synchronized NotePriorityService getService() {
+        if (service == null) {
+            service = new NotePriorityService();
+        }
+        return service;
+    }
 
     @Override
     public NotePriority saveOrUpdate(NotePriority notePriority) {
@@ -81,6 +91,21 @@ public class NotePriorityService implements IService<NotePriority> {
         try {
             util.beginTransaction();
             List<NotePriority> priorities = dao.find(hql);
+            LOG.info("NotePriority find() commit.");
+            util.commit();
+            return priorities;
+        } catch (DaoException e) {
+            LOG.error("Error NotePriority find() commit." + e.getMessage(), e);
+            util.rollback();
+            return null;
+        }
+    }
+
+    @Override
+    public Set<NotePriority> getAll() {
+        try {
+            util.beginTransaction();
+            Set<NotePriority> priorities = dao.getAll();
             LOG.info("NotePriority find() commit.");
             util.commit();
             return priorities;

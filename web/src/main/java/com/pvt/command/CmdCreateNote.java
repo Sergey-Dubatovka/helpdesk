@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 public class CmdCreateNote extends Action {
     private static final Logger LOG = LoggerFactory.getLogger(CmdCreateNote.class);
@@ -26,7 +27,7 @@ public class CmdCreateNote extends Action {
         NoteStatus status = noteStatusService.get(1); //status = open
         NotePriority priority = notePriorityService.get(1);//priority = low
 
-        List<GamingClub> gamingClubs = gamingClubService.getAll();
+        Set<GamingClub> gamingClubs = gamingClubService.getAll();
         req.setAttribute("gamingClubs", gamingClubs);
 
         if (Form.isPost(req)) {

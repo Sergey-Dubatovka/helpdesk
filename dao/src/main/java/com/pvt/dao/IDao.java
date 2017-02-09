@@ -4,7 +4,8 @@ import com.pvt.dao.exceptions.DaoException;
 import com.pvt.dao.util.HibernateUtil;
 
 import java.io.Serializable;
-import java.util.List;;
+import java.util.List;
+import java.util.Set;;
 
 public interface IDao<T> {
 
@@ -19,4 +20,6 @@ public interface IDao<T> {
     boolean delete(T t) throws DaoException;
 
     List<T> find(String where) throws DaoException;
+
+    Set<T> getAll() throws DaoException;
 }

@@ -1,11 +1,14 @@
 package com.pvt.beans;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -26,7 +29,7 @@ public class NotePriority implements Serializable {
 
     @Getter @Setter
     @OneToMany(mappedBy = "notePriority")
-    private Set<Note> notes = new HashSet<>();
+    private List<Note> notes = new ArrayList<>();
 
     public NotePriority(String priorityName) {
         this.priorityName = priorityName;

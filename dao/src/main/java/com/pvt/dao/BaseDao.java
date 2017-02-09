@@ -1,14 +1,18 @@
 package com.pvt.dao;
 
+import com.pvt.beans.GamingClub;
 import com.pvt.dao.exceptions.DaoException;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BaseDao<T> implements IDao<T> {
     private static final Logger LOG = LoggerFactory.getLogger(BaseDao.class);
@@ -77,6 +81,10 @@ public class BaseDao<T> implements IDao<T> {
         return null;
     }
 
+    @Override
+    public Set<T> getAll() throws DaoException{
+        return null;
+    }
 
     private Class getPersistentClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

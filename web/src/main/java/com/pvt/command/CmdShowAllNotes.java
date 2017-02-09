@@ -10,6 +10,7 @@ import java.util.List;
 public class CmdShowAllNotes extends Action {
     @Override
     Action execute(HttpServletRequest req) {
+
 //        DAO dao = DAO.getDAO();
 //        List<Note> openAdsList = dao.ad.getOpen();
 //        List<Note> allAds = dao.ad.getAll("");

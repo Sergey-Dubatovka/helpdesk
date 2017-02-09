@@ -3,12 +3,13 @@ package com.pvt.dao;
 import com.pvt.beans.GamingClub;
 import com.pvt.dao.exceptions.DaoException;
 import org.hibernate.HibernateException;
-
 import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 05.02.2017.
@@ -39,12 +40,14 @@ public class GamingClubDAO extends BaseDao<GamingClub> {
         }
     }
 
-    public List<GamingClub> getAll() throws DaoException {
+    public Set<GamingClub> getAll() throws DaoException {
         try {
             String hql = "FROM GamingClub";
             Query query = util.getSession().createQuery(hql);
             List<GamingClub> clubs = query.list();
-            return clubs;
+            Set<GamingClub> gamingClubs = new HashSet<>();
+            gamingClubs.addAll(clubs);
+            return gamingClubs;
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);

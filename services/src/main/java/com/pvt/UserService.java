@@ -8,14 +8,24 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
  */
 public class UserService implements IService<User> {
-// и здесь тоже сингтоны
+
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     private static UserDAO dao = UserDAO.getDao();
+
+    private static UserService service = null;
+
+    public static synchronized UserService getService() {
+        if (service == null) {
+            service = new UserService();
+        }
+        return service;
+    }
 
     @Override
     public User saveOrUpdate(User user) {
@@ -93,5 +103,10 @@ public class UserService implements IService<User> {
             util.rollback();
             return null;
         }
+    }
+
+    @Override
+    public Set<User> getAll() {
+        return null;
     }
 }

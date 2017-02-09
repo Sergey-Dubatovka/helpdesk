@@ -7,32 +7,32 @@
 <fieldset>
     <h4>Открытые Вами заявки</h4>
     <div class="row">
-        <div class="col-sm-1">${ads==null?
+        <div class="col-sm-1">${notes==null?
                 " "
                 :
                 "<b>№</b>"
                 }</div>
-        <div class="col-sm-2">${ads==null?
+        <div class="col-sm-2">${notes==null?
                 " "
                 :
                 "<b>Тема</b>"
                 }</div>
-        <div class="col-sm-3">${ads==null?
+        <div class="col-sm-3">${notes==null?
                 "У вас нет открытых заявок "
                 :
                 "<b>Описание</b>"
                 }</div>
-        <div class="col-sm-1">${ads==null?
+        <div class="col-sm-1">${notes==null?
                 " "
                 :
                 "<b>ЗИА</b>"
                 }</div>
-        <div class="col-sm-1">${ads==null?
+        <div class="col-sm-1">${notes==null?
                 " "
                 :
                 "<b>Приоритет</b>"
                 }</div>
-        <div class="col-sm-2">${ads==null?
+        <div class="col-sm-2">${notes==null?
                 " "
                 :
                 "<b>Статус</b>"
@@ -40,50 +40,53 @@
     </div>
     <br>
 
-    <c:forEach items="${ads}" var="ad">
+    <c:forEach items="${notes}" var="note">
         <div class="row">
             <form class="form-horizontal" action="do?command=PROFILE" method="POST">
                 <fieldset>
 
-                    <label for="ad_ID-${ad.id}"></label>
+                    <label for="note_noteId-${note.noteId}"></label>
                     <div class="col-sm-1">
-                        <input id="ad_ID-${ad.id}" name="ID" type="text" value="${ad.id}"
+                        <input id="note_noteId-${note.noteId}" name="ID" type="text" value="${note.noteId}"
                                class="form-control input-sm">
                     </div>
-                    <label for="ad_subject-${ad.subject}"></label>
-                    <div class="col-sm-2">
-                        <input id="ad_subject-${ad.subject}" name="subject" type="text" value="${ad.subject}"
-                               class="form-control input-sm">
-                    </div>
-                    <label for="description-${ad.subject}"></label>
-                    <div class="col-sm-3">
-                        <input id="description-${ad.subject}" name="description" type="text" value="${ad.description}"
-                               class="form-control input-sm">
+                                            <label for="note_subject-${note.subject}"></label>
+                                            <div class="col-sm-2">
+                                            <input id="note_subject-${note.subject}" name="subject" type="text" value="${note.subject}"
+                                            class="form-control input-sm">
+                                            </div>
+                                            <label for="description-${note.description}"></label>
+                                            <div class="col-sm-3">
+                                            <input id="description-${note.description}" name="description" type="text"
+                                            value="${note.description}"
+                                            class="form-control input-sm">
 
-                    </div>
-                    <div class="col-sm-2"><select id="ad_fk_zia-" name="fk_zia" class="form-control input-sm">
-                        <c:forEach items="${objectses}" var="zia">
-                            <option value="${zia.ID}"
-                                    status=${zia.ID} ${zia.ID==ad.fk_zia?"selected":""}>
-                                    ${zia.zia}
+                                            </div>
+
+                                            <div class="col-sm-2"><select id="note_gamingClub" name="gamingClub" class="form-control input-sm">
+                                            <c:forEach var="gamingClub" items="${gamingClubs}" >
+                                            <option value="${gamingClub}"
+                                            status=${gamingClub} ${gamingClub.gamingClubName==note.gamingClub.gamingClubName?"selected":""}>
+                                            ${gamingClub.gamingClubName}
+                            </option>
+                        </c:forEach>
+
+                    </select></div>
+                    <div class="col-sm-1">
+                        <select id="note_priority" name="notePriority" class="form-control input-sm">
+                        <c:forEach items="${priorities}" var="notePriority">
+                            <option value="${notePriority.priorityName}"
+                                    status=${notePriority.priorityName} ${notePriority.priorityName==note.notePriority.priorityName?"selected":""}>
+                                    ${notePriority.priorityName}
                             </option>
                         </c:forEach>
                     </select></div>
                     <div class="col-sm-1">
-                        <select id="ad_fk_priority-" name="fk_priority" class="form-control input-sm">
-                            <c:forEach items="${priorities}" var="priority">
-                                <option value="${priority.ID}"
-                                        status=${priority.ID} ${priority.ID==ad.fk_priority?"selected":""}>
-                                        ${priority.priorityName}
-                                </option>
-                            </c:forEach>
-                        </select></div>
-                    <div class="col-sm-1">
-                        <select id="statuses" name="fk_status" class="form-control input-sm">
-                            <c:forEach items="${statuses}" var="status">
-                                <option value="${status.ID}"
-                                        status=${status.ID} ${status.ID==ad.fk_status?"selected":""}>
-                                        ${status.statusName}
+                        <select id="note_status" name="noteStatus" class="form-control input-sm">
+                            <c:forEach items="${statuses}" var="noteStatus">
+                                <option value="${noteStatus.statusName}"
+                                        status=${noteStatus.statusName} ${noteStatus.statusName==note.noteStatus.statusName?"selected":""}>
+                                        ${noteStatus.statusName}
                                 </option>
                             </c:forEach>
                         </select>
