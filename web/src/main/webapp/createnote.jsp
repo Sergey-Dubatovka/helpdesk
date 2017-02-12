@@ -34,9 +34,9 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="gamingClubs">ЗИА</label>
             <div class="col-md-4">
-                <select id="gamingClubs" name="gamingClubs" class="form-control">
+                <select id="gamingClubs1" name="gamingClubs" class="form-control">
                     <c:forEach var="gamingClubs" items="${gamingClubs}">
-                        <option value="${gamingClubs.GAMING_CLUB_ID}">${gamingClubs.GAMING_CLUB_NAME}</option>
+                        <option value="${gamingClubs.gamingClubId}">${gamingClubs.gamingClubName}</option>
                     </c:forEach>
                 </select>
             </div>
@@ -47,7 +47,7 @@
             <div class="col-md-4">
                 <select id="gamingClubs" name="gamingClubs" class="form-control">
                     <c:forEach var="gamingClubs" items="${gamingClubs}">
-                        <option value="${gamingClubs.GAMING_CLUB_ID}">${gamingClubs.GAMING_CLUB_NAME}</option>
+                        <option value="${gamingClubs.gamingClubId}">${gamingClubs.gamingClubName}</option>
                     </c:forEach>
                 </select>
             </div>

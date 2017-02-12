@@ -6,6 +6,7 @@ import com.pvt.dao.NoteStatusDAO;
 import com.pvt.dao.exceptions.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
  * Created by sssergey83 on 16.01.2017.
  */
 
-public class NoteStatusService implements IService<NoteStatus> {
+public class NoteStatusService extends Service<NoteStatus> {
     private static final Logger LOG = LoggerFactory.getLogger(NoteStatusService.class);
     private static NoteStatusDAO dao = NoteStatusDAO.getDao();
 
@@ -34,6 +35,7 @@ public class NoteStatusService implements IService<NoteStatus> {
             dao.saveOrUpdate(noteStatus);
             LOG.info("SaveOrUpdate noteStatusService commit:" + noteStatus);
             util.commit();
+            util.getSession().flush();
         } catch (DaoException e) {
             LOG.error("Error NoteStatusService SaveOrUpdate:" + noteStatus, e);
             util.rollback();
@@ -50,6 +52,7 @@ public class NoteStatusService implements IService<NoteStatus> {
             noteStatus = dao.get(id);
             LOG.info("Get noteStatus commit:" + noteStatus);
             util.commit();
+            util.getSession().flush();
         } catch (DaoException e) {
             LOG.error("Error get noteStatus commit" + e.getMessage(), e);
             util.rollback();
@@ -59,41 +62,13 @@ public class NoteStatusService implements IService<NoteStatus> {
     }
 
     @Override
-    public NoteStatus load(Serializable id) {
-        NoteStatus noteStatus = null;
+    public NoteStatus find(String hql) {
         try {
             util.beginTransaction();
-            noteStatus = dao.load(id);
-        } catch (DaoException e) {
-            LOG.error("Error load noteStatus commit" + e.getMessage(), e);
-            util.rollback();
-            return null;
-        }
-        return noteStatus;
-    }
-
-    @Override
-    public boolean delete(NoteStatus noteStatus) {
-        try {
-            util.beginTransaction();
-            dao.delete(noteStatus);
-            LOG.info("Delete noteStatus commit:" + noteStatus);
-           util.commit();
-        } catch (DaoException e) {
-            util.rollback();
-            LOG.error("Error delete noteStatus commit:" + e.getMessage(), e);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public List<NoteStatus> find(String hql) {
-        try {
-            util.beginTransaction();
-            List<NoteStatus> statuses = dao.find(hql);
+            NoteStatus statuses = dao.find(hql);
             LOG.info("NoteStatus find() commit.");
             util.commit();
+            util.getSession().flush();
             return statuses;
         } catch (DaoException e) {
             LOG.error("Error NoteStatus find() commit." + e.getMessage(), e);
@@ -101,13 +76,15 @@ public class NoteStatusService implements IService<NoteStatus> {
             return null;
         }
     }
+
     @Override
-    public Set<NoteStatus> getAll()  {
+    public Set<NoteStatus> getAll() {
         try {
             util.beginTransaction();
             Set<NoteStatus> statuses = dao.getAll();
             LOG.info("NoteStatus find() commit.");
             util.commit();
+            util.getSession().flush();
             return statuses;
         } catch (DaoException e) {
             LOG.error("Error NotePriority find() commit." + e.getMessage(), e);

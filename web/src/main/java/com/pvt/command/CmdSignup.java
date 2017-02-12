@@ -11,33 +11,32 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CmdSignup extends Action {
     private static Logger log = LoggerFactory.getLogger(CmdSignup.class);
-    private Integer managerId = 1;
+    private Long managerId = 1L;
+    private UserService userService = new UserService();
+    private UserRoleService userRoleService = new UserRoleService();
+    private UserRole manager = userRoleService.get(managerId);
+    User newUser;
 
     @Override
     Action execute(HttpServletRequest req) {
-        User newUser;
+
 
         if (Form.isPost(req)) {
-            UserService userService = new UserService();
-
-            UserRoleService userRoleService = new UserRoleService();
-            UserRole manager = userRoleService.get(managerId);
-
             String pass = req.getParameter("passwordinput");
             String email = req.getParameter("email");
 
+            String login;
             try {
-                String login = Form.getString(req, "login", Patterns.LOGIN);
-
-                newUser = new User(login, pass, email, manager);
-
+                login = Form.getString(req, "login", Patterns.LOGIN);
             } catch (Exception e) {
-                log.error("", e);
+                log.error("Error in Form getString", e);
                 req.setAttribute(Messages.msgError, "NO VALID FIELDS");
                 return null;
             }
-            if (newUser != null && pass != null && email != null) {
+
+            if (login != null && pass != null && email != null) {
                 log.info("creating new User");
+                newUser = new User(login, pass, email, manager);
                 userService.saveOrUpdate(newUser);
                 req.setAttribute(Messages.msgMessage, "USER ADDED");
                 return Actions.LOGIN.action;

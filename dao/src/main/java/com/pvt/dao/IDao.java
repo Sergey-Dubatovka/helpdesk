@@ -5,7 +5,7 @@ import com.pvt.dao.util.HibernateUtil;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;;
+import java.util.Set;
 
 public interface IDao<T> {
 
@@ -19,7 +19,7 @@ public interface IDao<T> {
 
     boolean delete(T t) throws DaoException;
 
-    List<T> find(String where) throws DaoException;
+    T find(String where) throws DaoException;
 
-    Set<T> getAll() throws DaoException;
+    Set<T> getAll(String entity) throws DaoException;
 }

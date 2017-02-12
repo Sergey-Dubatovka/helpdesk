@@ -27,13 +27,13 @@ public class NotePriorityDAO extends BaseDao<NotePriority> {
         return dao;
     }
     @Override
-    public List <NotePriority> find(String where) throws DaoException {
+    public NotePriority find(String where) throws DaoException {
         try {
             String hql = "FROM NotePriority NP WHERE NP.priorityName=:priorityName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("priorityName", where);
             List<NotePriority> priorities = query.list();
-            return priorities;
+            return priorities.get(0);
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);

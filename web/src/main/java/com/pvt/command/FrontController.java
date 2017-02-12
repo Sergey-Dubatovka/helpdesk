@@ -1,7 +1,5 @@
 package com.pvt.command;
 
-import com.pvt.dao.util.HibernateUtil;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

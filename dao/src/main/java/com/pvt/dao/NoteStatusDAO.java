@@ -28,13 +28,13 @@ public class NoteStatusDAO extends BaseDao<NoteStatus> {
         return dao;
     }
     @Override
-    public List<NoteStatus> find(String where) throws DaoException {
+    public NoteStatus find(String where) throws DaoException {
         try {
             String hql = "FROM NoteStatus NS WHERE NS.statusName=:statusName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("statusName", where);
             List<NoteStatus> statuses = query.list();
-            return statuses;
+            return statuses.get(0);
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);

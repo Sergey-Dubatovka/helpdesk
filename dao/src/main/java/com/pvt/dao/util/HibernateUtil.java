@@ -60,6 +60,17 @@ public class HibernateUtil {
         getSession().getTransaction().begin();
     }
 
+    public void realizeSession(){
+        Session s = (Session)sessionThreadLocal.get();
+        if (s != null) {
+            LOG.info("Close hibernate session");
+            sessionThreadLocal.remove();
+            s.close();
+        }else {
+            LOG.info("Can't close session because is does not exist");
+        }
+    }
+
     public void commit() {
         getSession().getTransaction().commit();
     }

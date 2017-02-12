@@ -12,31 +12,29 @@ import java.util.List;
 
 public class CmdLogin extends Action {
     private static final Logger LOG = LoggerFactory.getLogger(CmdLogin.class);
+    UserService userService = UserService.getService();
 
     @Override
     Action execute(HttpServletRequest req) {
-        User loggedUser = new User();
+        User userFromJsp = new User();
         if (Form.isPost(req)) {
             try {
                 LOG.info("Post Form loggedUser");
-                loggedUser.setLogin(Form.getString(req, "Login", Patterns.LOGIN));
-                loggedUser.setPassword(Form.getString(req, "Password", Patterns.PASSWORD));
-
+                userFromJsp.setLogin(Form.getString(req, "Login", Patterns.LOGIN));
+                userFromJsp.setPassword(Form.getString(req, "Password", Patterns.PASSWORD));
             } catch (Exception e) {
                 LOG.error(e.getMessage());
                 req.setAttribute(Messages.msgError, "NO VALID FIELDS");
                 return null;
             }
-            UserService userService = new UserService();
-            //
-            List<User> users = userService.find(loggedUser.getLogin());
 
+          User loggedUser = userService.find(userFromJsp.getLogin());
 
-            if (users.size() > 0) {
-                if (users.get(0).getPassword().equals(loggedUser.getPassword())) {
-                    loggedUser = users.get(0);
+            if (loggedUser!=null) {
+                if (loggedUser.getPassword().equals(userFromJsp.getPassword())) {
+
                     HttpSession session = req.getSession();
-                    session.setAttribute("user", loggedUser);
+                    session.setAttribute("loggedUser", loggedUser);
                     session.setAttribute("userRole", loggedUser.getUserRole());
                     session.setMaxInactiveInterval(60 * 5);
                     return Actions.PROFILE.action;

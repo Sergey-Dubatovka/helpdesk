@@ -1,10 +1,10 @@
 package com.pvt.dao;
 
-import com.pvt.beans.GamingClub;
 import com.pvt.dao.exceptions.DaoException;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +36,7 @@ public class BaseDao<T> implements IDao<T> {
     @Override
     public T get(Serializable id) throws DaoException {
         LOG.info("Get class by id:" + id);
-        T t = null;
+        T t;
         try {
             Session session = util.getSession();
             t = (T) session.get(getPersistentClass(), id);
@@ -51,7 +51,7 @@ public class BaseDao<T> implements IDao<T> {
     @Override
     public T load(Serializable id) throws DaoException {
         LOG.info("Load class by id:" + id);
-        T t = null;
+        T t;
         try {
             Session session = util.getSession();
             t = (T) session.load(getPersistentClass(), id);
@@ -67,7 +67,8 @@ public class BaseDao<T> implements IDao<T> {
     @Override
     public boolean delete(T t) throws DaoException {
         try {
-            util.getSession().delete(t);
+            Session session=util.getSession();
+            session.delete(t);
             LOG.info("Delete:" + t);
         } catch (HibernateException e) {
             LOG.error("Error delete():" + e);
@@ -77,14 +78,25 @@ public class BaseDao<T> implements IDao<T> {
     }
 
     @Override
-    public List<T> find(String where) throws DaoException {
+    public T find(String where) throws DaoException {
         return null;
     }
 
     @Override
-    public Set<T> getAll() throws DaoException{
-        return null;
+    public Set<T> getAll(String entity) throws DaoException {
+        try {
+            String hql = "FROM " + entity;
+            Query query = util.getSession().createQuery(hql);
+            List<T> list = query.list();
+            Set<T> t = new HashSet<>();
+            t.addAll(list);
+            return t;
+        } catch (HibernateException e) {
+            LOG.error("Error find(): " + e);
+            throw new DaoException(e);
+        }
     }
+
 
     private Class getPersistentClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

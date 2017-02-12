@@ -1,68 +1,84 @@
 package com.pvt.command;
 
 
+import com.pvt.UserRoleService;
+import com.pvt.UserService;
 import com.pvt.beans.User;
+import com.pvt.beans.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.List;
+import java.util.Set;
 
 
 public class CmdShowUsers extends Action {
+    UserRoleService urs = UserRoleService.getService();
+    UserService us = UserService.getService();
 
-    private String debugOut(List<User> users) {
-        StringBuilder out = new StringBuilder();
-        for (User user : users) {
-            out.append(user.toString()).append("<br>");
-        }
-        return out.toString();
-    }
+    //  Set<UserRole> roles = urs.getAll();
+
 
     @Override
     Action execute(HttpServletRequest req) {
+
         if (req.getSession(false) != null) {
-//
-//            User userSession = (User) req.getSession().getAttribute("user");
-//
-//            DAO dao = DAO.getDAO();
-//            if (userSession.getFk_role() == IRole.roleDirector) {
-//                if (Form.isPost(req)) {
-//                    User user = new User();
-//                    try {
-//                        user.setID(Form.getInt(req, "ID"));
-//                        User userRead = dao.user.read(user.getID());
-//                        user.setLogin(Form.getString(req, "Login", Patterns.LOGIN));
-//                        user.setPassword(Form.getString(req, "Password", Patterns.PASSWORD));
-//                        user.setEmail(Form.getString(req, "Email", Patterns.EMAIL));
-//                        user.setFk_role(Form.getInt(req, "fk_Role"));
-//
-//                        req.setAttribute(Messages.msgMessage, user);
-//                        if (user.getID() > 0) {
-//                            dao.user.update(user);
-//                        }
-//                        if (user.getID() < 0) {
-//                            user.setID(user.getID() * (-1));
-//                            dao.user.delete(user);
-//                        }
-//                        if (user.getID() == 0) {
-//                            dao.user.create(user);
-//                        }
-//
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                        req.setAttribute(Messages.msgMessage, "Ошибка!!");
-//                    }
-//                }
-//                req.setAttribute("users", dao.user.getAll(""));
-//                req.setAttribute("roles", dao.role.getAll(""));
-//                return Actions.SHOWUSERS.action;
-//            } else {
-//                req.setAttribute("userses", dao.user.getAll(""));
-//                req.setAttribute("roles", dao.role.getAll(""));
-//                return Actions.SHOWUSERS_OLD.action;
-//            }
+            User loggedUser = (User) req.getSession().getAttribute("loggedUser");
+
+            if (loggedUser.getUserRole().getRoleName().equals("Director")) {
+                if (Form.isPost(req)) {
+                    User updatedUser = new User();
+                    try {
+                        //           updatedUser.setUserId(Form.getLong(req, "ID"));
+                        String loginFromForm = Form.getString(req, "Login", Patterns.LOGIN);
+                        String passFromForm = Form.getString(req, "Password", Patterns.PASSWORD);
+                        String emailFromForm = Form.getString(req, "Email", Patterns.EMAIL);
+                        String userRoleFromJsp = req.getParameter("userRole");
+                        Long userIdFromJsp = Form.getLong(req,"userId");
+                        UserRole ur = urs.find(userRoleFromJsp);
+
+                        updatedUser.setUserId(userIdFromJsp);
+                        updatedUser.setLogin(loginFromForm);
+                        updatedUser.setPassword(passFromForm);
+                        updatedUser.setEmail(emailFromForm);
+
+                        updatedUser.setUserRole(ur);
+//                        for (UserRole userRole : roles) {
+//                            if (userRoleFromJsp.equals(userRole.getRoleName())) {
+//                                updatedUser.setUserRole(userRole);
+//                                break;
+//                            }
+                        //}
+
+                        req.setAttribute(Messages.msgMessage, updatedUser);
+
+                        if (updatedUser.getUserId() >= 0) {
+                            us.saveOrUpdate(updatedUser);
+                        }
+                        if (updatedUser.getUserId() != null && updatedUser.getUserId() < 0) {
+                            updatedUser.setUserId(updatedUser.getUserId() * (-1));
+                            us.delete(updatedUser);
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        req.setAttribute(Messages.msgMessage, "Ошибка!!");
+                    }
+                }
+                Set<User> userSet = us.getAll();
+                Set<UserRole> userRoleSet = urs.getAll();
+                req.setAttribute("setOfUsers", userSet);
+                req.setAttribute("roles", userRoleSet);
+                return Actions.SHOWUSERS.action;
+            } else {
+                Set<User> userSet = us.getAll();
+                Set<UserRole> userRoleSet = urs.getAll();
+                req.setAttribute("userses", userSet);
+                req.setAttribute("roles", userRoleSet);
+                return Actions.SHOWUSERS_OLD.action;
+            }
 
 
-        } /*else*/ return Actions.LOGIN.action;
+        } /*else*/
+        return Actions.LOGIN.action;
     }
 }

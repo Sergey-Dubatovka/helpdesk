@@ -3,7 +3,6 @@ package com.pvt.dao;
 import com.pvt.beans.Note;
 import com.pvt.dao.exceptions.DaoException;
 import org.hibernate.HibernateException;
-
 import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +23,26 @@ public class NoteDAO extends BaseDao<Note> {
         }
         return dao;
     }
+
     @Override
-    public List<Note> find(String where) throws DaoException {
+    public Note find(String where) throws DaoException {
         try {
             String hql = "FROM Note N WHERE N.subject=:subject";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("subject", where);
+            List<Note> notes = query.list();
+            return notes.get(0);
+        } catch (HibernateException e) {
+            LOG.error("Error find(): " + e);
+            throw new DaoException(e);
+        }
+    }
+
+    public List<Note> findUserNotes(Long where) throws DaoException {
+        try {
+            String hql = "FROM Note N WHERE N.user.userId=:user";
+            Query query = util.getSession().createQuery(hql);
+            query.setParameter("user", where);
             List<Note> notes = query.list();
             return notes;
         } catch (HibernateException e) {

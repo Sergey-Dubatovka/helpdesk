@@ -27,13 +27,13 @@ public class GamingClubDAO extends BaseDao<GamingClub> {
     }
 
     @Override
-    public List<GamingClub> find(String where) throws DaoException {
+    public GamingClub find(String where) throws DaoException {
         try {
             String hql = "FROM GamingClub GS WHERE GS.gamingClubName=:gamingClubName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("gamingClubName", where);
             List<GamingClub> clubs = query.list();
-            return clubs;
+            return clubs.get(0);
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);

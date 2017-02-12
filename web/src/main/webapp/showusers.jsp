@@ -4,23 +4,23 @@
 
 <div class="row">
     <b>
-        <div class=col-sm-1>${users==null?                " "                :                "ID"                }</div>
-        <div class=col-sm-2>${users==null?
+        <div class=col-sm-1>${setOfUsers==null?                " "                :                "ID"                }</div>
+        <div class=col-sm-2>${setOfUsers==null?
                 " "
                 :
                 "Имя"
                 }</div>
-        <div class=col-sm-2>${users==null?
+        <div class=col-sm-2>${setOfUsers==null?
                 " "
                 :
                 "Пароль"
                 }</div>
-        <div class=col-sm-1>${users==null?
+        <div class=col-sm-1>${setOfUsers==null?
                 " "
                 :
                 "Email"
                 }</div>
-        <div class=col-sm-2>${users==null?
+        <div class=col-sm-2>${setOfUsers==null?
                 " "
                 :
                 "Должность"
@@ -29,12 +29,12 @@
 </div>
 <br>
 <!-- Коллекцию listUser мы получаем по get из команды сервлета UserForm -->
-<c:forEach items="${users}" var="user">
+<c:forEach items="${setOfUsers}" var="user">
     <div class="row">
-        <form class="form-user-${user.ID}" action="do?command=ShowUsers" method=POST>
+        <form class="form-user-${user.userId}" action="do?command=ShowUsers" method=POST>
             <div class=col-sm-1>
-                <input id="user_id_${user.ID}" name="ID" type="text"
-                       value="${user.ID}" class="form-control input-sm">
+                <input id="user_id_${user.userId}" name="userId" type="text"
+                       value="${user.userId}" class="form-control input-sm">
             </div>
             <div class=col-sm-2>
                 <input id="textinput" name="Login" type="text"
@@ -50,9 +50,9 @@
             </div>
 
             <div class=col-sm-2>
-                <select id="role" name="fk_Role" class="form-control input-sm">
+                <select id="role" name="userRole" class="form-control input-sm">
                     <c:forEach items="${roles}" var="role">
-                        <option value="${role.ID}" role=${role.ID} ${role.ID==user.fk_role?"selected":""}>
+                        <option value="${role.roleName}" role=${role.roleId} ${role.roleId==user.userRole.roleId?"selected":""}>
                                 ${role.roleName}
                         </option>
                     </c:forEach>
@@ -69,7 +69,7 @@
             <div class=col>
                 <button id="singlebutton2" name="singlebutton2"
                         class="btn btn-danger btn-sm"
-                        onclick="document.getElementById('user_id_${user.ID}').value=-document.getElementById('user_id_${user.ID}').value;"
+                        onclick="document.getElementById('user_id_${user.userId}').value=-document.getElementById('user_id_${user.userId}').value;"
                 >
                     Удалить
                 </button>
@@ -104,7 +104,7 @@
             <td align="left"> ${user.login}</td>
             <td align="left">${user.email}</td>
             <td align="center"><c:forEach items="${roles}" var="role">
-                <c:if test="${user.fk_role==role.ID}">${role.roleName}</c:if>
+                <c:if test="${user.userRole.roleId==role.roleId}">${role.roleName}</c:if>
             </c:forEach>
             </td>
         </tr>

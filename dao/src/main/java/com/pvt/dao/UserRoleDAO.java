@@ -26,13 +26,13 @@ public class UserRoleDAO extends BaseDao<UserRole> {
     }
 
     @Override
-    public List<UserRole> find(String where) throws DaoException {
+    public UserRole find(String where) throws DaoException {
         try {
             String hql = "FROM UserRole UR WHERE UR.roleName=:roleName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("roleName", where);
             List<UserRole> roles = query.list();
-            return roles;
+            return roles.get(0);
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);

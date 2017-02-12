@@ -1,14 +1,17 @@
 package com.pvt;
 
 import com.pvt.beans.Note;
-
-import com.pvt.beans.NotePriority;
-import com.pvt.beans.NoteStatus;
+import com.pvt.beans.User;
 import com.pvt.dao.NoteDAO;
 import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -16,11 +19,12 @@ import java.util.Set;
  * Created by sssergey83 on 16.01.2017.
  */
 
-public class NoteService implements IService<Note> {
+public class NoteService extends Service<Note> {
     private static final Logger LOG = LoggerFactory.getLogger(NoteService.class);
     private static NoteDAO dao = NoteDAO.getDao();
 
     private static NoteService service = null;
+    Transaction t = null;
 
     public static synchronized NoteService getService() {
         if (service == null) {
@@ -31,14 +35,18 @@ public class NoteService implements IService<Note> {
 
     @Override
     public Note saveOrUpdate(Note note) {
+        Date date = new Date();
+        Session session = util.getSession();
+        t = session.beginTransaction();
         try {
-          util.beginTransaction();
+            note.setDate(date);
             dao.saveOrUpdate(note);
             LOG.info("SaveOrUpdate note commit:" + note);
-            util.commit();
+            t.commit();
+            session.flush();
         } catch (DaoException e) {
             LOG.error("Error NoteService SaveOrUpdate:" + note, e);
-            util.rollback();
+            t.rollback();
             return null;
         }
         return note;
@@ -47,74 +55,67 @@ public class NoteService implements IService<Note> {
     @Override
     public Note get(Serializable id) {
         Note note;
+        Session session = util.getSession();
+        t = session.beginTransaction();
         try {
-           util.beginTransaction();
             note = dao.get(id);
             LOG.info("Get note commit:" + note);
-           util.commit();
+            t.commit();
+            session.flush();
         } catch (DaoException e) {
             LOG.error("Error get commit" + e.getMessage(), e);
-          util.rollback();
+            t.rollback();
             return null;
         }
         return note;
     }
 
     @Override
-    public Note load(Serializable id) {
-        Note note = null;
+    public Note find(String hql) {
+        Session session = util.getSession();
+        t = session.beginTransaction();
         try {
-           util.beginTransaction();
-            note = dao.load(id);
-        } catch (DaoException e) {
-            LOG.error("Error load commit" + e.getMessage(), e);
-           util.rollback();
-            return null;
-        }
-        return note;
-    }
-
-    @Override
-    public boolean delete(Note note) {
-        try {
-          util.beginTransaction();
-            dao.delete(note);
-            LOG.info("Delete note commit:" + note);
-          util.commit();
-        } catch (DaoException e) {
-            util.rollback();
-            LOG.error("Error delete note commit:" + e.getMessage(), e);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public List<Note> find(String hql) {
-        try {
-            util.beginTransaction();
-            List<Note> notes = dao.find(hql);
+            Note note = dao.find(hql);
             LOG.info("Note find() commit.");
-            util.commit();
-            return notes;
+            t.commit();
+            session.flush();
+            return note;
         } catch (DaoException e) {
             LOG.error("Error Note find() commit." + e.getMessage(), e);
-            util.rollback();
+            t.rollback();
             return null;
         }
     }
+
     @Override
     public Set<Note> getAll() {
+        Session session = util.getSession();
+        t = session.beginTransaction();
         try {
-            util.beginTransaction();
-            Set<Note> statuses = dao.getAll();
+            Set<Note> statuses = dao.getAll("Note");
             LOG.info("NotePriority find() commit.");
-            util.commit();
+            t.commit();
+            session.flush();
             return statuses;
         } catch (DaoException e) {
             LOG.error("Error NotePriority find() commit." + e.getMessage(), e);
-            util.rollback();
+            t.rollback();
             return null;
         }
+    }
+
+    public List<Note> findUserNotes(Long id) {
+        Session session = util.getSession();
+        t = session.beginTransaction();
+        List<Note> notes = null;
+        try {
+            notes = dao.findUserNotes(id);
+            t.commit();
+            session.flush();
+        } catch (DaoException e) {
+            LOG.error("Error findUserNotes in NoteDao" + e.getMessage());
+            t.rollback();
+        }
+        return notes;
     }
 }

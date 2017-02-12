@@ -39,7 +39,7 @@ public class CmdCreateNote extends Action {
                 note.setUser(currentUser);
                 note.setNoteStatus(status);
                 note.setNotePriority(priority);
-                note.setGamingClub(gamingClubService.find(req.getParameter("gamingClub")).get(0));
+                note.setGamingClub(gamingClubService.find(req.getParameter("gamingClub")));
 
                 LOG.info("saveOrUpdate" + note);
                 if (noteService.saveOrUpdate(note) != null) {

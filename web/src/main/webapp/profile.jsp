@@ -2,7 +2,7 @@
 <%@ include file="include/begin-html.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<legend>Профиль пользователя: ${user.login}</legend>
+<legend>Профиль пользователя: ${loggedUser.login} / ${loggedUser.userRole.roleName}  </legend>
 
 <fieldset>
     <h4>Открытые Вами заявки</h4>
@@ -50,37 +50,37 @@
                         <input id="note_noteId-${note.noteId}" name="ID" type="text" value="${note.noteId}"
                                class="form-control input-sm">
                     </div>
-                                            <label for="note_subject-${note.subject}"></label>
-                                            <div class="col-sm-2">
-                                            <input id="note_subject-${note.subject}" name="subject" type="text" value="${note.subject}"
-                                            class="form-control input-sm">
-                                            </div>
-                                            <label for="description-${note.description}"></label>
-                                            <div class="col-sm-3">
-                                            <input id="description-${note.description}" name="description" type="text"
-                                            value="${note.description}"
-                                            class="form-control input-sm">
+                    <label for="note_subject-${note.subject}"></label>
+                    <div class="col-sm-2">
+                        <input id="note_subject-${note.subject}" name="subject" type="text" value="${note.subject}"
+                               class="form-control input-sm">
+                    </div>
+                    <label for="description-${note.description}"></label>
+                    <div class="col-sm-3">
+                        <input id="description-${note.description}" name="description" type="text"
+                               value="${note.description}"
+                               class="form-control input-sm">
 
-                                            </div>
+                    </div>
 
-                                            <div class="col-sm-2"><select id="note_gamingClub" name="gamingClub" class="form-control input-sm">
-                                            <c:forEach var="gamingClub" items="${gamingClubs}" >
-                                            <option value="${gamingClub}"
-                                            status=${gamingClub} ${gamingClub.gamingClubName==note.gamingClub.gamingClubName?"selected":""}>
-                                            ${gamingClub.gamingClubName}
+                    <div class="col-sm-2"><select id="note_gamingClub" name="gamingClub" class="form-control input-sm">
+                        <c:forEach var="gamingClub" items="${gamingClubs}">
+                            <option value="${gamingClub.gamingClubName}"
+                                    status=${gamingClub} ${gamingClub.gamingClubName==note.gamingClub.gamingClubName?"selected":""}>
+                                    ${gamingClub.gamingClubName}
                             </option>
                         </c:forEach>
 
                     </select></div>
                     <div class="col-sm-1">
                         <select id="note_priority" name="notePriority" class="form-control input-sm">
-                        <c:forEach items="${priorities}" var="notePriority">
-                            <option value="${notePriority.priorityName}"
-                                    status=${notePriority.priorityName} ${notePriority.priorityName==note.notePriority.priorityName?"selected":""}>
-                                    ${notePriority.priorityName}
-                            </option>
-                        </c:forEach>
-                    </select></div>
+                            <c:forEach items="${priorities}" var="notePriority">
+                                <option value="${notePriority.priorityName}"
+                                        status=${notePriority.priorityName} ${notePriority.priorityName==note.notePriority.priorityName?"selected":""}>
+                                        ${notePriority.priorityName}
+                                </option>
+                            </c:forEach>
+                        </select></div>
                     <div class="col-sm-1">
                         <select id="note_status" name="noteStatus" class="form-control input-sm">
                             <c:forEach items="${statuses}" var="noteStatus">
