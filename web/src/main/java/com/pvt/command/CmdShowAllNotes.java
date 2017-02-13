@@ -1,7 +1,8 @@
 package com.pvt.command;
 
 
-import com.pvt.beans.*;
+import com.pvt.NoteService;
+import com.pvt.beans.Note;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -11,7 +12,11 @@ public class CmdShowAllNotes extends Action {
     @Override
     Action execute(HttpServletRequest req) {
 
-//        DAO dao = DAO.getDAO();
+        NoteService noteService = NoteService.getService();
+        List<Note> openNotes = noteService.getAllOpen();
+        req.setAttribute("openNotes", openNotes);
+
+        //        DAO dao = DAO.getDAO();
 //        List<Note> openAdsList = dao.ad.getOpen();
 //        List<Note> allAds = dao.ad.getAll("");
 //        List<User>users=dao.user.getAll("");

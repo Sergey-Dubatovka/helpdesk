@@ -11,15 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CmdSignup extends Action {
     private static Logger log = LoggerFactory.getLogger(CmdSignup.class);
-    private Long managerId = 1L;
+    private static final Long managerId = 1L;
     private UserService userService = new UserService();
     private UserRoleService userRoleService = new UserRoleService();
     private UserRole manager = userRoleService.get(managerId);
-    User newUser;
+    private User newUser;
 
     @Override
     Action execute(HttpServletRequest req) {
-
 
         if (Form.isPost(req)) {
             String pass = req.getParameter("passwordinput");

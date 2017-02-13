@@ -39,7 +39,7 @@
                     ${loggedUser==null?
                             "<li><a href='do?command=Login'>Все заявки</a></li>"
                             :
-                            "<li><a href='do?command=Showallads'>Все заявки</a></li>"
+                            "<li><a href='do?command=ShowAllNotes'>Все заявки</a></li>"
                             }
                         ${loggedUser==null?
                                 "<li><a href='do?command=Login'>Список пользователей</a></li>"

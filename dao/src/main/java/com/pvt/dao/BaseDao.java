@@ -67,7 +67,7 @@ public class BaseDao<T> implements IDao<T> {
     @Override
     public boolean delete(T t) throws DaoException {
         try {
-            Session session=util.getSession();
+            Session session = util.getSession();
             session.delete(t);
             LOG.info("Delete:" + t);
         } catch (HibernateException e) {
@@ -97,8 +97,7 @@ public class BaseDao<T> implements IDao<T> {
         }
     }
 
-
-    private Class getPersistentClass() {
+       private Class getPersistentClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }

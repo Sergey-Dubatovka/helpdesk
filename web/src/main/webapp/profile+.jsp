@@ -22,15 +22,15 @@
                 <td align="center"><b>Приоритет</b></td>
 
             </tr>
-            <c:forEach items="${adsList}" var="ad">
+            <c:forEach items="${adsList}" var="note">
             <tr>
-                <td align="center"> ${ad.id}</td>
-                <td align="left">${ad.subject}</td>
-                <td align="left">${ad.description}</td>
-                <td align="center">${ad.fk_zia}</td>
-                <td align="center">${ad.fk_status}</td>
-                <td align="center">${ad.fk_user}</td>
-                <td align="center">${ad.fk_priority}</td>
+                <td align="center"> ${note.id}</td>
+                <td align="left">${note.subject}</td>
+                <td align="left">${note.description}</td>
+                <td align="center">${note.fk_zia}</td>
+                <td align="center">${note.fk_status}</td>
+                <td align="center">${note.fk_user}</td>
+                <td align="center">${note.fk_priority}</td>
             </tr>
             </c:forEach>
 

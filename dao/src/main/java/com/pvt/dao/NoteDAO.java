@@ -50,4 +50,16 @@ public class NoteDAO extends BaseDao<Note> {
             throw new DaoException(e);
         }
     }
+
+    public List<Note> getAllOpen() throws DaoException {
+        try {
+            String hql = "FROM Note N WHERE N.notePriority.priorityId<3";
+            Query query = util.getSession().createQuery(hql);
+            List<Note> list = query.list();
+            return list;
+        } catch (HibernateException e) {
+            LOG.error("Error find(): " + e);
+            throw new DaoException(e);
+        }
+    }
 }

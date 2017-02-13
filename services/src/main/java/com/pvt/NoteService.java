@@ -118,4 +118,19 @@ public class NoteService extends Service<Note> {
         }
         return notes;
     }
+    public List<Note> getAllOpen() {
+        Session session = util.getSession();
+        t = session.beginTransaction();
+        List<Note> notes = null;
+        try {
+            notes = dao.getAllOpen();
+            t.commit();
+            session.flush();
+        } catch (DaoException e) {
+            LOG.error("Error findUserNotes in NoteDao" + e.getMessage());
+            t.rollback();
+        }
+        return notes;
+    }
+
 }
