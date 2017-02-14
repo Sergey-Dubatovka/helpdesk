@@ -20,7 +20,7 @@ public class CmdMain extends Action {
        req.setAttribute("countOfUsers",us.allUserCount());
        req.setAttribute("countOfManagers",us.managerCount());
 
-//        req.setAttribute("countOfWorkers",dao.user.getCountOfWorker());
+ //      req.setAttribute("countOfWorkers",dao.user.getCountOfWorker());
 //        req.setAttribute("director",
 //                (dao.user.getAll("").size()-
 //                (dao.user.getCountOfManagers()+
