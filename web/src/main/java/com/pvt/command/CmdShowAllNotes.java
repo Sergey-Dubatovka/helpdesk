@@ -16,17 +16,6 @@ public class CmdShowAllNotes extends Action {
         List<Note> openNotes = noteService.getAllOpen();
         req.setAttribute("openNotes", openNotes);
 
-        //        DAO dao = DAO.getDAO();
-//        List<Note> openAdsList = dao.ad.getOpen();
-//        List<Note> allAds = dao.ad.getAll("");
-//        List<User>users=dao.user.getAll("");
-//        req.setAttribute("adsList", openAdsList);
-//        req.setAttribute("users",users);
-//
-//        if (Form.isPost(req) && Integer.valueOf(req.getParameter("LogoutButton")) == 1) {
-//            req.setAttribute("adsList", allAds);
-//        } else if (Form.isPost(req)) req.setAttribute("adsList", openAdsList);
-
         return Actions.SHOWALLNOTES.action;
     }
 }

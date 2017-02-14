@@ -1,10 +1,8 @@
 package com.pvt;
 
 import com.pvt.beans.Note;
-import com.pvt.beans.User;
 import com.pvt.dao.NoteDAO;
 import com.pvt.dao.exceptions.DaoException;
-import com.pvt.dao.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
@@ -118,6 +116,7 @@ public class NoteService extends Service<Note> {
         }
         return notes;
     }
+
     public List<Note> getAllOpen() {
         Session session = util.getSession();
         t = session.beginTransaction();
@@ -133,4 +132,63 @@ public class NoteService extends Service<Note> {
         return notes;
     }
 
+    public Long countAll() {
+        Session session = util.getSession();
+        t = session.beginTransaction();
+        Long count = null;
+        try {
+            count = dao.countAll();
+            t.commit();
+            session.flush();
+        } catch (DaoException e) {
+            LOG.error("Error countAllNote" + e.getMessage());
+            t.rollback();
+        }
+        return count;
+    }
+
+    public Long countAllopen() {
+        Session session = util.getSession();
+        t = session.beginTransaction();
+        Long count = null;
+        try {
+            count = dao.countOpen();
+            t.commit();
+            session.flush();
+        } catch (DaoException e) {
+            LOG.error("Error countAllNote" + e.getMessage());
+            t.rollback();
+        }
+        return count;
+    }
+
+    public Long countInProgress() {
+        Session session = util.getSession();
+        t = session.beginTransaction();
+        Long count = null;
+        try {
+            count = dao.countInProgress();
+            t.commit();
+            session.flush();
+        } catch (DaoException e) {
+            LOG.error("Error countAllNote" + e.getMessage());
+            t.rollback();
+        }
+        return count;
+    }
+
+    public Long countResolved() {
+        Session session = util.getSession();
+        t = session.beginTransaction();
+        Long count = null;
+        try {
+            count = dao.countResolved();
+            t.commit();
+            session.flush();
+        } catch (DaoException e) {
+            LOG.error("Error countAllNote" + e.getMessage());
+            t.rollback();
+        }
+        return count;
+    }
 }

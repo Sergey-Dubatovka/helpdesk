@@ -53,7 +53,7 @@ public class NoteDAO extends BaseDao<Note> {
 
     public List<Note> getAllOpen() throws DaoException {
         try {
-            String hql = "FROM Note N WHERE N.notePriority.priorityId<3";
+            String hql = "FROM Note N WHERE N.noteStatus.statusId<3L order by N.date DESC";
             Query query = util.getSession().createQuery(hql);
             List<Note> list = query.list();
             return list;
@@ -62,4 +62,55 @@ public class NoteDAO extends BaseDao<Note> {
             throw new DaoException(e);
         }
     }
+
+    public Long countAll() throws DaoException {
+        Long result;
+        try {
+            Query query = util.getSession().createQuery("select count(*) from Note");
+            result = (Long) query.uniqueResult();
+
+        } catch (HibernateException he) {
+            LOG.error("Error countAllNote");
+            throw new DaoException(he);
+        }
+        return result;
+    }
+    public Long countOpen() throws DaoException {
+        Long result;
+        try {
+            Query query = util.getSession().createQuery("select count(*) from Note where noteStatus.statusId!=3L");
+            result = (Long) query.uniqueResult();
+
+        } catch (HibernateException he) {
+            LOG.error("Error countAllNote");
+            throw new DaoException(he);
+        }
+        return result;
+    }
+
+    public Long countInProgress() throws DaoException {
+        Long result;
+        try {
+            Query query = util.getSession().createQuery("select count(*) from Note where noteStatus.statusId=2L");
+            result = (Long) query.uniqueResult();
+
+        } catch (HibernateException he) {
+            LOG.error("Error countAllNote");
+            throw new DaoException(he);
+        }
+        return result;
+    }
+    public Long countResolved() throws DaoException {
+        Long result;
+        try {
+            Query query = util.getSession().createQuery("select count(*) from Note where noteStatus.statusId=3L");
+            result = (Long) query.uniqueResult();
+
+        } catch (HibernateException he) {
+            LOG.error("Error countAllNote");
+            throw new DaoException(he);
+        }
+        return result;
+    }
+
 }

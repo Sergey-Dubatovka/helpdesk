@@ -5,9 +5,12 @@ import com.pvt.beans.NoteStatus;
 import com.pvt.beans.User;
 import com.pvt.dao.exceptions.DaoException;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 
 import org.hibernate.Query;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,5 +46,27 @@ public class UserDAO extends BaseDao<User> {
         }
     }
 
-    //public Set<Note> getNotes()
+    public Long allUserCount() throws DaoException {
+        Long result;
+        try {
+            Criteria criteria = util.getSession().createCriteria(User.class);
+            criteria.setProjection(Projections.rowCount());
+            result = (Long) criteria.uniqueResult();
+
+        } catch (HibernateException he) {
+            LOG.error("Error in allUserCount" + he.getMessage());
+            throw new DaoException(he);
+        }
+        return result;
+    }
+
+    public Long managerCount() throws DaoException {
+        try {
+            Query query = util.getSession().createQuery("select count (*) from User where userRole.roleId=2L");
+            return (Long) query.uniqueResult();
+        } catch (HibernateException he) {
+            LOG.error("Error in allUserCount" + he.getMessage());
+            throw new DaoException(he);
+        }
+    }
 }

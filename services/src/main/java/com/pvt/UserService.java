@@ -133,4 +133,33 @@ public class UserService extends Service<User> {
             return null;
         }
     }
+
+    public Long allUserCount() {
+        Session session = util.getSession();
+        try {
+            t = session.beginTransaction();
+            Long res = dao.allUserCount();
+            t.commit();
+            session.flush();
+            return res;
+        } catch (DaoException e) {
+            LOG.error("Error in allUserCount UserService" + e.getMessage());
+            t.rollback();
+            return null;
+        }
+    }
+
+    public Long managerCount() {
+        try {
+            util.beginTransaction();
+            Long res = dao.managerCount();
+            util.commit();
+            util.getSession().flush();
+            return res;
+        } catch (DaoException e) {
+            LOG.error("error in managerCount in UserService()");
+            t.rollback();
+            return null;
+        }
+    }
 }
