@@ -22,7 +22,7 @@
                 :
                 "<b>Описание</b>"
                 }</div>
-        <div class="col-sm-1">${notes==null?
+        <div class="col-sm-2">${notes==null?
                 " "
                 :
                 "<b>ЗИА</b>"

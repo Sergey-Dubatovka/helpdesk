@@ -60,9 +60,25 @@ public class UserDAO extends BaseDao<User> {
         return result;
     }
 
-    public Long managerCount() throws DaoException {
+    public Long countUserByRole(String role) throws DaoException {
+        Long idRole;
+        switch (role) {
+            case "Manager":
+                idRole = 1L;
+                break;
+            case "Worker":
+                idRole = 2L;
+                break;
+            case "Director":
+                idRole = 3L;
+                break;
+            default:
+                idRole = null;
+                break;
+        }
         try {
-            Query query = util.getSession().createQuery("select count (*) from User where userRole.roleId=2L");
+            Query query = util.getSession().createQuery("select count (*) from User where userRole.roleId=:id");
+            query.setParameter("id", idRole);
             return (Long) query.uniqueResult();
         } catch (HibernateException he) {
             LOG.error("Error in allUserCount" + he.getMessage());

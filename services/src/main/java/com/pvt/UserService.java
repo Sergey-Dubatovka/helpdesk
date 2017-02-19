@@ -149,17 +149,19 @@ public class UserService extends Service<User> {
         }
     }
 
-    public Long managerCount() {
+    public Long countUserByRole(String role) {
         try {
             util.beginTransaction();
-            Long res = dao.managerCount();
+            Long res = dao.countUserByRole(role);
             util.commit();
             util.getSession().flush();
             return res;
         } catch (DaoException e) {
-            LOG.error("error in managerCount in UserService()");
+            LOG.error("error in countUserByRole in UserService()");
             t.rollback();
             return null;
         }
     }
+
+
 }

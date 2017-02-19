@@ -23,7 +23,6 @@
             <td align="center"><b>Приоритет</b></td>
 
 
-
         </tr>
         <c:forEach items="${openNotes}" var="note">
             <tr>
@@ -32,14 +31,26 @@
                 <td align="left">${note.description}</td>
                 <td align="center">${note.gamingClub.gamingClubName}</td>
                 <td align="center"> ${note.user.login}</td>
-                <td align="left">${note.date}</td>
+                <td align="center">${note.date}</td>
                 <td align="center">${note.noteStatus.statusName}</td>
                 <td align="center">${note.notePriority.priorityName}</td>
-
-
             </tr>
         </c:forEach>
     </table>
+
+    <div class="col-md-2">
+        <ul class="pagination">
+            <c:forEach var="i" begin="1" end = "${pageCount}">
+                <li
+                        <c:if test="${i == activePageIndex}">
+                            class="active"
+                        </c:if>
+
+                ><a href="do?command=showallnotes&activePageIndex=${i}">${i}</a></li>
+            </c:forEach>
+        </ul>
+    </div>
+
 </div>
 <%@ include file="include/end-html.jsp" %>
 

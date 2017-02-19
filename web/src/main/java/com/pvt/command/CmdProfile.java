@@ -21,16 +21,16 @@ public class CmdProfile extends Action {
         User sessionUser;
 
         if (req.getSession(false) != null) {
-             sessionUser= (User) req.getSession().getAttribute("loggedUser");
+            sessionUser = (User) req.getSession().getAttribute("loggedUser");
 
 // if Form isPost >> update note
             if (Form.isPost(req)) {
                 Note note = new Note();
-               note.setNoteId(Long.valueOf(req.getParameter("ID")));
+                note.setNoteId(Long.valueOf(req.getParameter("ID")));
                 note.setSubject(req.getParameter("subject"));
                 note.setDescription(req.getParameter("description"));
 // upd Status
-                String newNoteStatus =req.getParameter("noteStatus");
+                String newNoteStatus = req.getParameter("noteStatus");
                 NoteStatus noteStatus = nss.find(newNoteStatus);
                 note.setNoteStatus(noteStatus);
 //upd user

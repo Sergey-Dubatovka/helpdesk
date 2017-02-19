@@ -15,16 +15,11 @@ public class CmdMain extends Action {
         req.setAttribute("allAds", ns.countAll());
         req.setAttribute("openAds", ns.countAllopen());
         req.setAttribute("workingAds", ns.countInProgress());
-        req.setAttribute("closedAds",ns.countResolved());
-
-       req.setAttribute("countOfUsers",us.allUserCount());
-       req.setAttribute("countOfManagers",us.managerCount());
-
- //      req.setAttribute("countOfWorkers",dao.user.getCountOfWorker());
-//        req.setAttribute("director",
-//                (dao.user.getAll("").size()-
-//                (dao.user.getCountOfManagers()+
-//                dao.user.getCountOfWorker())));
+        req.setAttribute("closedAds", ns.countResolved());
+        req.setAttribute("countOfUsers", us.allUserCount());
+        req.setAttribute("countOfManagers", us.countUserByRole("Manager"));
+        req.setAttribute("countOfWorkers", us.countUserByRole("Worker"));
+        req.setAttribute("countOfDirector", us.countUserByRole("Director"));
 
         return Actions.MAIN.action;
     }

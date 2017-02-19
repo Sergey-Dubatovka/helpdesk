@@ -2,8 +2,10 @@ package com.pvt.dao;
 
 import com.pvt.beans.Note;
 import com.pvt.dao.exceptions.DaoException;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +77,7 @@ public class NoteDAO extends BaseDao<Note> {
         }
         return result;
     }
+
     public Long countOpen() throws DaoException {
         Long result;
         try {
@@ -100,6 +103,7 @@ public class NoteDAO extends BaseDao<Note> {
         }
         return result;
     }
+
     public Long countResolved() throws DaoException {
         Long result;
         try {
@@ -113,4 +117,13 @@ public class NoteDAO extends BaseDao<Note> {
         return result;
     }
 
+    public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) throws DaoException {
+
+        Criteria criteria = util.getSession().createCriteria(Note.class);
+        criteria.addOrder(Order.desc("id"));
+        criteria.setFirstResult(pageIndex*numberOfRecordsPerPage-numberOfRecordsPerPage);
+        criteria.setMaxResults(numberOfRecordsPerPage);
+
+        return criteria.list();
+    }
 }

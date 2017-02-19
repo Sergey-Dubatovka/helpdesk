@@ -191,4 +191,17 @@ public class NoteService extends Service<Note> {
         }
         return count;
     }
+
+    public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) {
+        List<Note> notes = null;
+        util.beginTransaction();
+        try {
+            notes = dao.getPage(pageIndex, numberOfRecordsPerPage);
+            util.commit();
+            util.getSession().flush();
+        } catch (DaoException e) {
+            util.rollback();
+        }
+        return notes;
+    }
 }
