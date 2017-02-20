@@ -10,11 +10,18 @@
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.connection.pool_size">20</property>
+        <property name="hibernate.connection.isolationnn">2</property>
         <property name="hibernate.hikari.idleTimeout">15000</property>
         <property name="hibernate.hikari.minimumIdle">1</property>
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">validate</property>
-
+        <!--EHCache-->
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory
+        </property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="net.sf.ehcache.configurationResourceName">ehcache.xml</property>
+        <!--Mapping-->
         <mapping class="com.pvt.beans.UserRole"/>
         <mapping class="com.pvt.beans.User"/>
         <mapping class="com.pvt.beans.NotePriority"/>

@@ -4,8 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "NOTE")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Note implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,6 +69,20 @@ public class Note implements Serializable {
     @JoinColumn(name = "GAMING_CLUB_ID")
     private GamingClub gamingClub;
 
+    @Version
+    private int version;
+
+
+    public Note(String subject, String description, User user,
+                NotePriority priority, NoteStatus status, GamingClub gamingClub, Date date) {
+        this.subject = subject;
+        this.description = description;
+        this.user = user;
+        this.notePriority = priority;
+        this.noteStatus = status;
+        this.gamingClub = gamingClub;
+        this.date = date;
+    }
 
     public Note(String subject, String description, User user,
                 NotePriority priority, NoteStatus status, GamingClub gamingClub) {

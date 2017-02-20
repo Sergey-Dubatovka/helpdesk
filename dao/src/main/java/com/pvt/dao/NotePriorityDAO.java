@@ -32,6 +32,7 @@ public class NotePriorityDAO extends BaseDao<NotePriority> {
             String hql = "FROM NotePriority NP WHERE NP.priorityName=:priorityName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("priorityName", where);
+            query.setCacheable(true);
             List<NotePriority> priorities = query.list();
             return priorities.get(0);
         } catch (HibernateException e) {
@@ -43,6 +44,7 @@ public class NotePriorityDAO extends BaseDao<NotePriority> {
         try {
             String hql = "FROM NotePriority";
             Query query = util.getSession().createQuery(hql);
+            query.setCacheable(true);
             List<NotePriority> list = query.list();
             Set<NotePriority> priorities = new HashSet<>();
             priorities.addAll(list);

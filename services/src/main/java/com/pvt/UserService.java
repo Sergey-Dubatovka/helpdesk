@@ -138,12 +138,12 @@ public class UserService extends Service<User> {
         Session session = util.getSession();
         try {
             t = session.beginTransaction();
-            Long res = dao.allUserCount();
+            Long res = dao.countAllUsers();
             t.commit();
             session.flush();
             return res;
         } catch (DaoException e) {
-            LOG.error("Error in allUserCount UserService" + e.getMessage());
+            LOG.error("Error in countAllUsers UserService" + e.getMessage());
             t.rollback();
             return null;
         }

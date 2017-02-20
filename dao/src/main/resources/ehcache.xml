@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ehcache>
+    <diskStore path="D:/JAVA/helpdesk/cache/ehcache"/>
+    <defaultCache
+            maxElementsInMemory="20000"
+            eternal="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="300"
+            overflowToDisk="true"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="300"
+            memoryStoreEvictionPolicy="LRU"
+    />
+    <cache name="com.pvt.beans.Note"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"
+    />
+    <cache name="com.pvt.beans.User"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"
+    />
+    <cache name="com.pvt.beans.NoteStatus"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"
+    />
+    <cache name="com.pvt.beans.NotePriority"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"
+    />
+    <cache name="com.pvt.beans.GamingClub"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"
+    />
+    <cache name="com.pvt.beans.UserRole"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"
+    />
+
+
+</ehcache>

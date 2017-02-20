@@ -38,6 +38,7 @@ public class UserDAO extends BaseDao<User> {
             String hql = "FROM User U WHERE U.login=:login";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("login", login);
+            query.setCacheable(true);
             List<User> users = query.list();
             return users.get(0);
         } catch (HibernateException e) {
@@ -46,15 +47,16 @@ public class UserDAO extends BaseDao<User> {
         }
     }
 
-    public Long allUserCount() throws DaoException {
+    public Long countAllUsers() throws DaoException {
         Long result;
         try {
             Criteria criteria = util.getSession().createCriteria(User.class);
             criteria.setProjection(Projections.rowCount());
+            criteria.setCacheable(true);
             result = (Long) criteria.uniqueResult();
 
         } catch (HibernateException he) {
-            LOG.error("Error in allUserCount" + he.getMessage());
+            LOG.error("Error in countAllUsers" + he.getMessage());
             throw new DaoException(he);
         }
         return result;
@@ -81,7 +83,7 @@ public class UserDAO extends BaseDao<User> {
             query.setParameter("id", idRole);
             return (Long) query.uniqueResult();
         } catch (HibernateException he) {
-            LOG.error("Error in allUserCount" + he.getMessage());
+            LOG.error("Error in countAllUsers" + he.getMessage());
             throw new DaoException(he);
         }
     }

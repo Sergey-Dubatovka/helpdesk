@@ -32,7 +32,9 @@ public class GamingClubDAO extends BaseDao<GamingClub> {
             String hql = "FROM GamingClub GS WHERE GS.gamingClubName=:gamingClubName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("gamingClubName", where);
+            query.setCacheable(true);
             List<GamingClub> clubs = query.list();
+
             return clubs.get(0);
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
@@ -44,6 +46,7 @@ public class GamingClubDAO extends BaseDao<GamingClub> {
         try {
             String hql = "FROM GamingClub";
             Query query = util.getSession().createQuery(hql);
+            query.setCacheable(true);
             List<GamingClub> clubs = query.list();
             Set<GamingClub> gamingClubs = new HashSet<>();
             gamingClubs.addAll(clubs);

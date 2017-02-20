@@ -79,7 +79,7 @@
     </div>
     <br>
 </c:forEach>
-<table width="50%" border="1" cellpadding="2" cellspacing="2" >
+<table width="50%" border="1" cellpadding="2" cellspacing="2" align="center">
     <tr>
         <td align='left'>${userses==null?
                 " "

@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ public class NoteDAO extends BaseDao<Note> {
             String hql = "FROM Note N WHERE N.subject=:subject";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("subject", where);
+            query.setCacheable(true);
             List<Note> notes = query.list();
             return notes.get(0);
         } catch (HibernateException e) {
@@ -45,6 +47,7 @@ public class NoteDAO extends BaseDao<Note> {
             String hql = "FROM Note N WHERE N.user.userId=:user";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("user", where);
+            query.setCacheable(true);
             List<Note> notes = query.list();
             return notes;
         } catch (HibernateException e) {
@@ -57,6 +60,7 @@ public class NoteDAO extends BaseDao<Note> {
         try {
             String hql = "FROM Note N WHERE N.noteStatus.statusId<3L order by N.date DESC";
             Query query = util.getSession().createQuery(hql);
+            query.setCacheable(true);
             List<Note> list = query.list();
             return list;
         } catch (HibernateException e) {
@@ -120,9 +124,11 @@ public class NoteDAO extends BaseDao<Note> {
     public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) throws DaoException {
 
         Criteria criteria = util.getSession().createCriteria(Note.class);
+        criteria.add(Restrictions.lt("noteStatus.statusId", 3L));
         criteria.addOrder(Order.desc("id"));
-        criteria.setFirstResult(pageIndex*numberOfRecordsPerPage-numberOfRecordsPerPage);
+        criteria.setFirstResult(pageIndex * numberOfRecordsPerPage - numberOfRecordsPerPage);
         criteria.setMaxResults(numberOfRecordsPerPage);
+        criteria.setCacheable(true);
 
         return criteria.list();
     }

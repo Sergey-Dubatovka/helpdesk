@@ -33,6 +33,7 @@ public class NoteStatusDAO extends BaseDao<NoteStatus> {
             String hql = "FROM NoteStatus NS WHERE NS.statusName=:statusName";
             Query query = util.getSession().createQuery(hql);
             query.setParameter("statusName", where);
+            query.setCacheable(true);
             List<NoteStatus> statuses = query.list();
             return statuses.get(0);
         } catch (HibernateException e) {
@@ -44,6 +45,7 @@ public class NoteStatusDAO extends BaseDao<NoteStatus> {
         try {
             String hql = "FROM NoteStatus";
             Query query = util.getSession().createQuery(hql);
+            query.setCacheable(true);
             List<NoteStatus> list = query.list();
             Set<NoteStatus> statuses = new HashSet<>();
             statuses.addAll(list);

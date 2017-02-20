@@ -1,9 +1,6 @@
 package com.pvt.command;
 
-import com.pvt.GamingClubService;
-import com.pvt.NotePriorityService;
-import com.pvt.NoteService;
-import com.pvt.NoteStatusService;
+import com.pvt.*;
 import com.pvt.beans.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +32,12 @@ public class CmdProfile extends Action {
                 note.setNoteStatus(noteStatus);
 //upd user
 // if note status is resolved: >> "delete" note from sessionUser and set note for User.login "ResolvedNotes"
-                if (newNoteStatus != "resolved") {
+                if (!newNoteStatus.equals("resolved")) {
                     note.setUser(sessionUser);
                 } else {
-                    User userForDeletedNotes = new User("ResolvedNotes", "123", null, null);
+                    UserService us = UserService.getService();
+                    Long idUserForDeletedNotes = 1L;
+                    User userForDeletedNotes = us.get(idUserForDeletedNotes);
                     note.setUser(userForDeletedNotes);
                 }
 //upd GamingClub

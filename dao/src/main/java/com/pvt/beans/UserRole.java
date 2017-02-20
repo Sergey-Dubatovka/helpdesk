@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "USER_ROLE")
-
+@org.hibernate.annotations.Cache(usage =CacheConcurrencyStrategy.READ_WRITE)
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
