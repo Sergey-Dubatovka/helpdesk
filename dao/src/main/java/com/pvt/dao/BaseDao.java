@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BaseDao<T> implements IDao<T> {
+public abstract class BaseDao<T> implements IDao<T> {
     private static final Logger LOG = LoggerFactory.getLogger(BaseDao.class);
 
     public BaseDao() {
@@ -68,7 +68,7 @@ public class BaseDao<T> implements IDao<T> {
     public boolean delete(T t) throws DaoException {
         try {
             Session session = util.getSession();
-            session.delete(t);
+                        session.delete(t);
             LOG.info("Delete:" + t);
         } catch (HibernateException e) {
             LOG.error("Error delete():" + e);

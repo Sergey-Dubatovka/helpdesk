@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public class UserDaoTest extends TestCase {
     private static DAO dao = DAO.getDAO();
     private static Logger log = LoggerFactory.getLogger(UserDaoTest.class);
-    private static User user;
+    static User user;
 
     /**
      * Create the test case
@@ -50,28 +50,31 @@ public class UserDaoTest extends TestCase {
     }
 
     public void testB_FindUser() {
+        User userFindTest;
         try {
-            user = null;
-            user = dao.user.find("userForTest");
+             userFindTest = dao.user.find("userForTest");
         } catch (DaoException e) {
             log.error(e.getMessage());
             throw new Error(e.getMessage());
         }
-        Assert.assertNotNull(user.getUserId());
+        Assert.assertEquals(user, userFindTest);
     }
 
     public void testC_UpdateUser() {
-
-        user.setEmail("userForTestNew");
-        user.setLogin("userForTestNew");
-        user.setPassword("userForTestNew");
-        User updatedUser;
+        User updatedUser= null;
         try {
-            user.setUserRole(dao.role.get(2L));
-            updatedUser = user;
-            user =  dao.user.saveOrUpdate(user);
-            User test=user;
+            updatedUser = dao.user.find(user.getLogin());
         } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        updatedUser.setEmail("userForTestNew");
+        updatedUser.setLogin("userForTestNew");
+        updatedUser.setPassword("userForTestNew");
+
+        try {
+            updatedUser.setUserRole(dao.role.get(2L));
+         user = dao.user.saveOrUpdate(updatedUser);
+                    } catch (DaoException e) {
             log.error(e.getMessage());
             throw new Error(e.getMessage());
         }
@@ -129,15 +132,15 @@ public class UserDaoTest extends TestCase {
 
     public void testH_deleteUser() {
         Assert.assertNotNull(user);
-        try {   Assert.assertTrue(dao.user.delete(user));
-
+        try {
+            Assert.assertTrue(dao.user.delete(user));
         } catch (DaoException e) {
             log.error(e.getMessage());
             throw new Error(e.getMessage());
         }
-            }
+    }
 
-    private User createUserForTests() {
+    User createUserForTests() {
         if (user == null) {
             user = new User();
             user.setLogin("userForTest");

@@ -38,18 +38,18 @@ public class UserRoleDaoTest extends TestCase {
         return new TestSuite(UserRoleDaoTest.class);
     }
 
-    public void testA_SaveUserRole() {
-
-        role = new UserRole("Admin");
-        try {
-            dao.saveOrUpdate(role);
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertNotNull(role.getRoleId());
-    }
-
+//    public void testA_SaveUserRole() {
+//
+//        role = new UserRole("Admin");
+//        try {
+//            dao.saveOrUpdate(role);
+//        } catch (DaoException e) {
+//            log.error(e.getMessage());
+//            throw new Error(e.getMessage());
+//        }
+//        Assert.assertNotNull(role.getRoleId());
+//    }
+//
     public void testB_FindUserRole() {
         try {
             role = dao.find("Admin");
@@ -59,49 +59,50 @@ public class UserRoleDaoTest extends TestCase {
         }
         Assert.assertNotNull(role.getRoleId());
     }
+//
+//    public void testC_UpdateUser() {
+//        role.setRoleName("Administrator");
+//        UserRole updatedRole = role;
+//        try {
+//            role = dao.saveOrUpdate(updatedRole);
+//        } catch (DaoException e) {
+//            log.error(e.getMessage());
+//            throw new Error(e.getMessage());
+//        }
+//        Assert.assertEquals(updatedRole, role);
+//    }
+//
+//    public void testD_GetUserRole() {
+//        UserRole currentRole = role;
+//        try {
+//            role = dao.get(role.getRoleId());
+//        } catch (DaoException e) {
+//            log.error(e.getMessage());
+//            throw new Error(e.getMessage());
+//        }
+//        Assert.assertEquals(currentRole, role);
+//    }
+//
+//    public void testE_LoadUserRole() {
+//        UserRole currentUserRole = role;
+//        try {
+//            role = dao.load(role.getRoleId());
+//        } catch (DaoException e) {
+//            log.error(e.getMessage());
+//            throw new Error(e.getMessage());
+//        }
+//        Assert.assertEquals(currentUserRole, role);
+//    }
+//
+//    public void testH_deleteUserRole() {
+//        Assert.assertNotNull(role);
+//        try {
+//            Assert.assertTrue(dao.delete(role));
+//        } catch (DaoException e) {
+//            log.error(e.getMessage());
+//            throw new Error(e.getMessage());
+//        }
+//    }
 
-    public void testC_UpdateUser() {
-        role.setRoleName("Administrator");
-        UserRole updatedRole = role;
-        try {
-            role = dao.saveOrUpdate(updatedRole);
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertEquals(updatedRole, role);
-    }
-
-    public void testD_GetUserRole() {
-        UserRole currentRole = role;
-        try {
-            role = dao.get(role.getRoleId());
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertEquals(currentRole, role);
-    }
-
-    public void testE_LoadUserRole() {
-        UserRole currentUserRole = role;
-        try {
-            role = dao.load(role.getRoleId());
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertEquals(currentUserRole, role);
-    }
-
-    public void testH_deleteUserRole() {
-        Assert.assertNotNull(role);
-        try {
-            Assert.assertTrue(dao.delete(role));
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-    }
 
 }
