@@ -1,42 +1,37 @@
 package com.pvt.dao;
 
-import com.pvt.beans.Note;
-import com.pvt.beans.NoteStatus;
 import com.pvt.beans.User;
 import com.pvt.dao.exceptions.DaoException;
-
+import com.pvt.dao.interfaces.IUserDAO;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-
 import org.hibernate.Query;
-import org.hibernate.criterion.Projection;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sssergey83 on 04.02.2017.
  */
-public class UserDAO extends BaseDao<User> {
+@Repository
+public class UserDAO extends BaseDao<User> implements IUserDAO {
     private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
 
-    private static UserDAO dao = null;
-
-    public static synchronized UserDAO getDao() {
-        if (dao == null) {
-            dao = new UserDAO();
-        }
-        return dao;
+    @Autowired
+    private UserDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
     }
 
     @Override
-    public User find(String login) throws DaoException {
+        public User find(String login) throws DaoException {
         try {
             String hql = "FROM User U WHERE U.login=:login";
-            Query query = util.getSession().createQuery(hql);
+            Query query = getSession().createQuery(hql);
             query.setParameter("login", login);
             query.setCacheable(true);
             List<User> users = query.list();
@@ -50,7 +45,7 @@ public class UserDAO extends BaseDao<User> {
     public Long countAllUsers() throws DaoException {
         Long result;
         try {
-            Criteria criteria = util.getSession().createCriteria(User.class);
+            Criteria criteria = getSession().createCriteria(User.class);
             criteria.setProjection(Projections.rowCount());
             criteria.setCacheable(true);
             result = (Long) criteria.uniqueResult();
@@ -79,7 +74,7 @@ public class UserDAO extends BaseDao<User> {
                 break;
         }
         try {
-            Query query = util.getSession().createQuery("select count (*) from User where userRole.roleId=:id");
+            Query query = getSession().createQuery("select count (*) from User where userRole.roleId=:id");
             query.setParameter("id", idRole);
             return (Long) query.uniqueResult();
         } catch (HibernateException he) {

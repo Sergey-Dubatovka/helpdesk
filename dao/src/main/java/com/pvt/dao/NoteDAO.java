@@ -2,40 +2,41 @@ package com.pvt.dao;
 
 import com.pvt.beans.Note;
 import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.interfaces.INoteDAO;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by sssergey83 on 05.02.2017.
  */
-public class NoteDAO extends BaseDao<Note> {
+@Repository
+public class NoteDAO extends BaseDao<Note> implements INoteDAO {
     private static final Logger LOG = LoggerFactory.getLogger(NoteDAO.class);
 
-    private static NoteDAO dao = null;
-
-    public static synchronized NoteDAO getDao() {
-        if (dao == null) {
-            dao = new NoteDAO();
-        }
-        return dao;
+    @Autowired
+    public NoteDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
     }
 
     @Override
     public Note find(String where) throws DaoException {
         try {
             String hql = "FROM Note N WHERE N.subject=:subject";
-            Query query = util.getSession().createQuery(hql);
+            Query query = getSession().createQuery(hql);
             query.setParameter("subject", where);
             query.setCacheable(true);
-            List<Note> notes = query.list();
-            return notes.get(0);
+            Note note = (Note) query.uniqueResult();
+            return note;
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);
@@ -45,7 +46,7 @@ public class NoteDAO extends BaseDao<Note> {
     public List<Note> findUserNotes(Long where) throws DaoException {
         try {
             String hql = "FROM Note N WHERE N.user.userId=:user";
-            Query query = util.getSession().createQuery(hql);
+            Query query = getSession().createQuery(hql);
             query.setParameter("user", where);
             query.setCacheable(true);
             List<Note> notes = query.list();
@@ -59,7 +60,7 @@ public class NoteDAO extends BaseDao<Note> {
     public List<Note> getAllOpen() throws DaoException {
         try {
             String hql = "FROM Note N WHERE N.noteStatus.statusId<3L order by N.date DESC";
-            Query query = util.getSession().createQuery(hql);
+            Query query = getSession().createQuery(hql);
             query.setCacheable(true);
             List<Note> list = query.list();
             return list;
@@ -72,9 +73,9 @@ public class NoteDAO extends BaseDao<Note> {
     public Long countAll() throws DaoException {
         Long result;
         try {
-            Query query = util.getSession().createQuery("select count(*) from Note");
-            result = (Long) query.uniqueResult();
+            Query query = getSession().createQuery("select count(*) from Note");
 
+            result = (Long) query.uniqueResult();
         } catch (HibernateException he) {
             LOG.error("Error countAllNote");
             throw new DaoException(he);
@@ -85,7 +86,7 @@ public class NoteDAO extends BaseDao<Note> {
     public Long countOpen() throws DaoException {
         Long result;
         try {
-            Query query = util.getSession().createQuery("select count(*) from Note where noteStatus.statusId!=3L");
+            Query query = getSession().createQuery("select count(*) from Note where noteStatus.statusId!=3L");
             result = (Long) query.uniqueResult();
 
         } catch (HibernateException he) {
@@ -98,7 +99,7 @@ public class NoteDAO extends BaseDao<Note> {
     public Long countInProgress() throws DaoException {
         Long result;
         try {
-            Query query = util.getSession().createQuery("select count(*) from Note where noteStatus.statusId=2L");
+            Query query = getSession().createQuery("select count(*) from Note where noteStatus.statusId=2L");
             result = (Long) query.uniqueResult();
 
         } catch (HibernateException he) {
@@ -111,7 +112,7 @@ public class NoteDAO extends BaseDao<Note> {
     public Long countResolved() throws DaoException {
         Long result;
         try {
-            Query query = util.getSession().createQuery("select count(*) from Note where noteStatus.statusId=3L");
+            Query query = getSession().createQuery("select count(*) from Note where noteStatus.statusId=3L");
             result = (Long) query.uniqueResult();
 
         } catch (HibernateException he) {
@@ -123,7 +124,7 @@ public class NoteDAO extends BaseDao<Note> {
 
     public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) throws DaoException {
 
-        Criteria criteria = util.getSession().createCriteria(Note.class);
+        Criteria criteria = getSession().createCriteria(Note.class);
         criteria.add(Restrictions.lt("noteStatus.statusId", 3L));
         criteria.addOrder(Order.desc("id"));
         criteria.setFirstResult(pageIndex * numberOfRecordsPerPage - numberOfRecordsPerPage);

@@ -2,59 +2,39 @@ package com.pvt.dao;
 
 import com.pvt.beans.GamingClub;
 import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.interfaces.IGamingClubDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by sssergey83 on 05.02.2017.
  */
-public class GamingClubDAO extends BaseDao<GamingClub> {
+@Repository
+public class GamingClubDAO extends BaseDao<GamingClub> implements IGamingClubDAO {
     private static final Logger LOG = LoggerFactory.getLogger(GamingClubDAO.class);
 
-    private static GamingClubDAO dao = null;
-
-    public static synchronized GamingClubDAO getDao() {
-        if (dao == null) {
-            dao = new GamingClubDAO();
-        }
-        return dao;
+    @Autowired
+    public GamingClubDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
     }
 
     @Override
     public GamingClub find(String where) throws DaoException {
         try {
-            String hql = "FROM GamingClub GS WHERE GS.gamingClubName=:gamingClubName";
-            Query query = util.getSession().createQuery(hql);
+            String hql = "FROM GamingClub GC WHERE GC.gamingClubName=:gamingClubName";
+            Query query = getSession().createQuery(hql);
             query.setParameter("gamingClubName", where);
             query.setCacheable(true);
-            List<GamingClub> clubs = query.list();
 
-            return clubs.get(0);
+            return (GamingClub) query.uniqueResult();
         } catch (HibernateException e) {
             LOG.error("Error find(): " + e);
             throw new DaoException(e);
         }
     }
-
-    public Set<GamingClub> getAll() throws DaoException {
-        try {
-            String hql = "FROM GamingClub";
-            Query query = util.getSession().createQuery(hql);
-            query.setCacheable(true);
-            List<GamingClub> clubs = query.list();
-            Set<GamingClub> gamingClubs = new HashSet<>();
-            gamingClubs.addAll(clubs);
-            return gamingClubs;
-        } catch (HibernateException e) {
-            LOG.error("Error find(): " + e);
-            throw new DaoException(e);
-        }
-    }
-
 }

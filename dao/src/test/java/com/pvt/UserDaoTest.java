@@ -1,25 +1,37 @@
 package com.pvt;
 
 import com.pvt.beans.User;
-import com.pvt.dao.DAO;
+import com.pvt.beans.UserRole;
 import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.interfaces.IUserDAO;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+
+import javax.transaction.Transactional;
+
+import static com.pvt.BaseDaoTest.createUser;
 
 /**
  * Unit test for Dao.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@ContextConfiguration(locations = "classpath:daoTestSpring.xml")
+@Transactional
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+
 public class UserDaoTest extends TestCase {
-    private static DAO dao = DAO.getDAO();
-    private static Logger log = LoggerFactory.getLogger(UserDaoTest.class);
-    private static User user;
+    private User user = new User();
+    String login = "userForTest";
+
+    @Autowired
+    public IUserDAO userDAO;
 
     /**
      * Create the test case
@@ -37,119 +49,29 @@ public class UserDaoTest extends TestCase {
         return new TestSuite(UserDaoTest.class);
     }
 
-    public void testA_SaveUser() {
-
-        user = createUserForTests();
-        try {
-            dao.user.saveOrUpdate(user);
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
+    public void testB_FindUser() throws DaoException {
+        user = new User("test", "test", "test@mail.ru", null);
+        userDAO.saveOrUpdate(user);
+        userDAO.find(login + "Find");
         Assert.assertNotNull(user.getUserId());
     }
 
-    public void testB_FindUser() {
-        try {
-            user = null;
-            user = dao.user.find("userForTest");
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertNotNull(user.getUserId());
-    }
-
-    public void testC_UpdateUser() {
-
-        user.setEmail("userForTestNew");
-        user.setLogin("userForTestNew");
-        user.setPassword("userForTestNew");
-        User updatedUser;
-        try {
-            user.setUserRole(dao.role.get(2L));
-            updatedUser = user;
-            user =  dao.user.saveOrUpdate(user);
-            User test=user;
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertEquals(updatedUser, user);
-
-    }
-
-    public void testD_GetUser() {
-        User currentUser = user;
-        try {
-            dao.user.get(user.getUserId());
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertEquals(currentUser, user);
-    }
-
-    public void testE_LoadUser() {
-        User currentUser = user;
-        try {
-            dao.user.load(user.getUserId());
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-        Assert.assertEquals(currentUser, user);
-    }
-
-
-    public void testF_CountAllUsers() {
+    public void testF_CountAllUsers() throws DaoException {
         Long result;
-        try {
-            result = dao.user.countAllUsers();
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
+        result = userDAO.countAllUsers();
         Assert.assertNotNull(result);
     }
 
-    public void testG_CountUserByRole() {
-        String[] role = new String[]{"Manager", "Director", "Worker"};
+    public void testG_CountUserByRole() throws DaoException {
+        String[] roles = new String[]{"Manager", "Director", "Worker"};
         Long result;
-        try {
-            for (String elem : role) {
-                result = dao.user.countUserByRole(elem);
-                Assert.assertNotNull(result);
-            }
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
-        }
-    }
 
-    public void testH_deleteUser() {
-        Assert.assertNotNull(user);
-        try {   Assert.assertTrue(dao.user.delete(user));
-
-        } catch (DaoException e) {
-            log.error(e.getMessage());
-            throw new Error(e.getMessage());
+        for (String role : roles) {
+            user = createUser(login, role);
+            user.setUserRole(new UserRole(role));
+            userDAO.saveOrUpdate(user);
+            result = userDAO.countUserByRole(role);
+            Assert.assertNotNull(result);
         }
-            }
-
-    private User createUserForTests() {
-        if (user == null) {
-            user = new User();
-            user.setLogin("userForTest");
-            user.setPassword("userForTest");
-            user.setEmail("userForTest@mailForTest.by");
-            try {
-                user.setUserRole(dao.role.get(1L));
-            } catch (DaoException e) {
-                log.error(e.getMessage());
-                throw new Error(e.getMessage());
-            }
-        }
-        return user;
     }
 }

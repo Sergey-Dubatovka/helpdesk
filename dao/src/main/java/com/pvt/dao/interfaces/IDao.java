@@ -1,15 +1,11 @@
-package com.pvt.dao;
+package com.pvt.dao.interfaces;
 
 import com.pvt.dao.exceptions.DaoException;
-import com.pvt.dao.util.HibernateUtil;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 public interface IDao<T> {
-
-    HibernateUtil util = HibernateUtil.getHibernateUtil();
 
     T saveOrUpdate(T t) throws DaoException;
 
@@ -21,5 +17,5 @@ public interface IDao<T> {
 
     T find(String where) throws DaoException;
 
-    Set<T> getAll(String entity) throws DaoException;
+    List<T> getAll(String entity) throws DaoException;
 }

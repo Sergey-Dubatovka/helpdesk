@@ -1,12 +1,15 @@
 package com.pvt.dao;
 
-import com.pvt.beans.GamingClub;
 import com.pvt.beans.NotePriority;
 import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.interfaces.INotePriorityDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,22 +18,20 @@ import java.util.Set;
 /**
  * Created by sssergey83 on 05.02.2017.
  */
-public class NotePriorityDAO extends BaseDao<NotePriority> {
+@Repository
+public class NotePriorityDAO extends BaseDao<NotePriority> implements INotePriorityDAO {
     private static final Logger LOG = LoggerFactory.getLogger(NotePriorityDAO.class);
 
-    private static NotePriorityDAO dao = null;
-
-    public static synchronized NotePriorityDAO getDao() {
-        if (dao == null) {
-            dao = new NotePriorityDAO();
-        }
-        return dao;
+    @Autowired
+    private NotePriorityDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
     }
+
     @Override
     public NotePriority find(String where) throws DaoException {
         try {
             String hql = "FROM NotePriority NP WHERE NP.priorityName=:priorityName";
-            Query query = util.getSession().createQuery(hql);
+            Query query = getSession().createQuery(hql);
             query.setParameter("priorityName", where);
             query.setCacheable(true);
             List<NotePriority> priorities = query.list();
@@ -40,18 +41,18 @@ public class NotePriorityDAO extends BaseDao<NotePriority> {
             throw new DaoException(e);
         }
     }
-    public Set<NotePriority> getAll() throws DaoException {
-        try {
-            String hql = "FROM NotePriority";
-            Query query = util.getSession().createQuery(hql);
-            query.setCacheable(true);
-            List<NotePriority> list = query.list();
-            Set<NotePriority> priorities = new HashSet<>();
-            priorities.addAll(list);
-            return priorities;
-        } catch (HibernateException e) {
-            LOG.error("Error find(): " + e);
-            throw new DaoException(e);
-        }
-    }
+//    public Set<NotePriority> getAll() throws DaoException {
+//        try {
+//            String hql = "FROM NotePriority";
+//            Query query = util.getSession().createQuery(hql);
+//            query.setCacheable(true);
+//            List<NotePriority> list = query.list();
+//            Set<NotePriority> priorities = new HashSet<>();
+//            priorities.addAll(list);
+//            return priorities;
+//        } catch (HibernateException e) {
+//            LOG.error("Error find(): " + e);
+//            throw new DaoException(e);
+//        }
+//    }
 }

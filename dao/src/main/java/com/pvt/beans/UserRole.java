@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "USER_ROLE")
-@org.hibernate.annotations.Cache(usage =CacheConcurrencyStrategy.READ_WRITE)
+//@org.hibernate.annotations.Cache(usage =CacheConcurrencyStrategy.READ_WRITE)
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

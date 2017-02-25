@@ -2,33 +2,34 @@ package com.pvt.dao;
 
 import com.pvt.beans.UserRole;
 import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.interfaces.IUserRoleDAO;
 import org.hibernate.HibernateException;
-
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by sssergey83 on 05.02.2017.
  */
-public class UserRoleDAO extends BaseDao<UserRole> {
+@Repository
+public class UserRoleDAO extends BaseDao<UserRole> implements IUserRoleDAO {
     private static final Logger LOG = LoggerFactory.getLogger(UserRoleDAO.class);
-    private static UserRoleDAO dao = null;
 
-    public static synchronized UserRoleDAO getDao() {
-        if (dao == null) {
-            dao = new UserRoleDAO();
-        }
-        return dao;
+    @Autowired
+    public UserRoleDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
     }
 
     @Override
     public UserRole find(String where) throws DaoException {
         try {
             String hql = "FROM UserRole UR WHERE UR.roleName=:roleName";
-            Query query = util.getSession().createQuery(hql);
+            Query query = getSession().createQuery(hql);
             query.setParameter("roleName", where);
             query.setCacheable(true);
             List<UserRole> roles = query.list();
