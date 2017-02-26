@@ -11,19 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sssergey83 on 05.02.2017.
  */
 @Repository
-public class NotePriorityDAO extends BaseDao<NotePriority> implements INotePriorityDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(NotePriorityDAO.class);
+public class NotePriorityDAOImpl extends BaseDaoImpl<NotePriority> implements INotePriorityDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(NotePriorityDAOImpl.class);
 
     @Autowired
-    private NotePriorityDAO(SessionFactory sessionFactory) {
+    private NotePriorityDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 

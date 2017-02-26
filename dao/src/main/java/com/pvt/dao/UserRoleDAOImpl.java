@@ -17,11 +17,11 @@ import java.util.List;
  * Created by sssergey83 on 05.02.2017.
  */
 @Repository
-public class UserRoleDAO extends BaseDao<UserRole> implements IUserRoleDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(UserRoleDAO.class);
+public class UserRoleDAOImpl extends BaseDaoImpl<UserRole> implements IUserRoleDAO {
+    private static  Logger log = LoggerFactory.getLogger(UserRoleDAOImpl.class);
 
     @Autowired
-    public UserRoleDAO(SessionFactory sessionFactory) {
+    public UserRoleDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
@@ -35,7 +35,7 @@ public class UserRoleDAO extends BaseDao<UserRole> implements IUserRoleDAO {
             List<UserRole> roles = query.list();
             return roles.get(0);
         } catch (HibernateException e) {
-            LOG.error("Error find(): " + e);
+            log.error("Error find(): " + e);
             throw new DaoException(e);
         }
     }

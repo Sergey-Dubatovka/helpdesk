@@ -2,7 +2,6 @@ package com.pvt.dao;
 
 import com.pvt.beans.NoteStatus;
 import com.pvt.dao.exceptions.DaoException;
-import com.pvt.dao.interfaces.INoteDAO;
 import com.pvt.dao.interfaces.INoteStatusDAO;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -12,19 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sssergey83 on 05.02.2017.
  */
 @Repository
-public class NoteStatusDAO extends BaseDao<NoteStatus> implements INoteStatusDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(NoteStatusDAO.class);
+public class NoteStatusDAOImpl extends BaseDaoImpl<NoteStatus> implements INoteStatusDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(NoteStatusDAOImpl.class);
 
     @Autowired
-    private NoteStatusDAO(SessionFactory sessionFactory) {
+    private NoteStatusDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 

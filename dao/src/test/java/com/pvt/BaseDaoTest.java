@@ -1,13 +1,14 @@
 package com.pvt;
 
 import com.pvt.beans.User;
-import com.pvt.beans.UserRole;
-import com.pvt.dao.exceptions.DaoException;
+import com.pvt.dao.UserRoleDAOImpl;
 import com.pvt.dao.interfaces.IDao;
-import com.pvt.dao.interfaces.IUserDAO;
+import com.pvt.dao.interfaces.IUserRoleDAO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,80 +26,40 @@ import javax.transaction.Transactional;
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 
 public class BaseDaoTest {
-    private static User user = new User();
-    String login = "userForTest";
+    private static Logger log = LoggerFactory.getLogger(UserRoleDAOImpl.class);
+
+    private static User user;
+    String login = "testUser";
 
     @Autowired
     private IDao<User> baseDao;
 
     @Autowired
-    private IUserDAO userDAO;
+    private IUserRoleDAO roleDao;
 
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-//    @Test
-//    public BaseDaoTest(String testName) {
-//        super(testName);
-//    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-//    public static Test suite() {
-//        return new TestSuite(BaseDaoTest.class);
-//    }
-@Test
-    public void testA_SaveUser() throws DaoException {
-
+    @Test
+    public void testA_saveOrUpdate() throws Exception {
         user = createUser(login, "");
         baseDao.saveOrUpdate(user);
         Assert.assertNotNull(user.getUserId());
     }
 
-    public void testC_UpdateUser() throws DaoException {
-        UserRole userRole = new UserRole("UpdatedRole");
-        Long userId = 1L;
-        String updLogin = "userForTestNew";
-        user = (User) baseDao.get(userId);
-        user.setEmail(updLogin + "@mail.ru");
-        user.setLogin(updLogin);
-        user.setPassword(updLogin + "pass");
-        user.setUserRole(userRole);
-
-        baseDao.saveOrUpdate(user);
-        User updatedUser = (User) userDAO.find(updLogin);
-        Assert.assertEquals(updatedUser.getUserId(), user.getUserId());
-    }
-
-    public void testD_GetUser() throws DaoException {
+    @Test
+    public void testD_GetUser() throws Exception {
         user = createUser(login, "Get");
-        user = (User) baseDao.get(1L);
+        user = baseDao.get(User.class, 1L);
         Assert.assertNotNull(user.getUserId());
     }
 
-    public void testE_LoadUser() throws DaoException {
-        user = createUser(login, "Load");
-        baseDao.load(user.getUserId());
-        Assert.assertNotNull(user.getUserId());
-    }
-
-    public void testH_deleteUser() throws DaoException {
-        user = createUser(login, "delete");
-        baseDao.saveOrUpdate(user);
-        Assert.assertNotNull(user);
-        Assert.assertTrue(baseDao.delete(user));
-    }
-
-    static User createUser(String login, String suffix) {
-        UserRole testRole = new UserRole("RoleFor" + login + suffix);
-
+    User createUser(String login, String suffix) {
+        if (user != null) {
+            return user;
+        }
+        user = new User();
         user.setLogin(login + suffix);
         user.setPassword(login + suffix);
-        user.setEmail(login + suffix + "@mailForTest.by");
-        user.setUserRole(testRole);
+        user.setEmail(login + suffix + "@testMail.by");
+        user.setUserRole(null);
         return user;
     }
 }

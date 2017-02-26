@@ -15,11 +15,11 @@ import org.springframework.stereotype.Repository;
  * Created by sssergey83 on 05.02.2017.
  */
 @Repository
-public class GamingClubDAO extends BaseDao<GamingClub> implements IGamingClubDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(GamingClubDAO.class);
+public class GamingClubDAOImpl extends BaseDaoImpl<GamingClub> implements IGamingClubDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(GamingClubDAOImpl.class);
 
     @Autowired
-    public GamingClubDAO(SessionFactory sessionFactory) {
+    public GamingClubDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 

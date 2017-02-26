@@ -1,207 +1,93 @@
 package com.pvt;
 
 import com.pvt.beans.Note;
-import com.pvt.dao.NoteDAO;
-import com.pvt.dao.exceptions.DaoException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import com.pvt.dao.interfaces.INoteDAO;
+import com.pvt.exceptions.ServiceException;
+import com.pvt.interfaces.INoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by sssergey83 on 16.01.2017.
  */
 
-public class NoteService extends Service<Note> {
-    private static final Logger LOG = LoggerFactory.getLogger(NoteService.class);
-    private static NoteDAO dao = NoteDAO.getDao();
+public class NoteService extends BaseService<Note> implements INoteService {
+    private static Logger log = LoggerFactory.getLogger(NoteService.class);
 
-    private static NoteService service = null;
-    Transaction t = null;
-
-    public static synchronized NoteService getService() {
-        if (service == null) {
-            service = new NoteService();
-        }
-        return service;
-    }
+    @Autowired
+    INoteDAO noteDAO;
 
     @Override
-    public Note saveOrUpdate(Note note) {
-        Date date = new Date();
-        Session session = util.getSession();
-        t = session.beginTransaction();
+    public List<Note> findUserNotes(Long id) throws ServiceException {
         try {
-            note.setDate(date);
-            dao.saveOrUpdate(note);
-            LOG.info("SaveOrUpdate note commit:" + note);
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error NoteService SaveOrUpdate:" + note, e);
-            t.rollback();
-            return null;
-        }
-        return note;
-    }
-
-    @Override
-    public Note get(Serializable id) {
-        Note note;
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        try {
-            note = dao.get(id);
-            LOG.info("Get note commit:" + note);
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error get commit" + e.getMessage(), e);
-            t.rollback();
-            return null;
-        }
-        return note;
-    }
-
-    @Override
-    public Note find(String hql) {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        try {
-            Note note = dao.find(hql);
-            LOG.info("Note find() commit.");
-            t.commit();
-            session.flush();
-            return note;
-        } catch (DaoException e) {
-            LOG.error("Error Note find() commit." + e.getMessage(), e);
-            t.rollback();
-            return null;
+            return noteDAO.findUserNotes(id);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public Set<Note> getAll() {
-        Session session = util.getSession();
-        t = session.beginTransaction();
+    public List<Note> getAllOpen() throws ServiceException {
+            try {
+                return noteDAO.getAllOpen();
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new ServiceException(e);
+            }
+        }
+
+    @Override
+    public Long countAll() throws ServiceException{
         try {
-            Set<Note> statuses = dao.getAll("Note");
-            LOG.info("NotePriority find() commit.");
-            t.commit();
-            session.flush();
-            return statuses;
-        } catch (DaoException e) {
-            LOG.error("Error NotePriority find() commit." + e.getMessage(), e);
-            t.rollback();
-            return null;
+            return noteDAO.countAll();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ServiceException(e);
         }
     }
 
-    public List<Note> findUserNotes(Long id) {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        List<Note> notes = null;
+    @Override
+    public Long countAllOpen()throws ServiceException {
         try {
-            notes = dao.findUserNotes(id);
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error findUserNotes in NoteDao" + e.getMessage());
-            t.rollback();
+            return noteDAO.countAllOpen();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ServiceException(e);
         }
-        return notes;
     }
 
-    public List<Note> getAllOpen() {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        List<Note> notes = null;
+    @Override
+    public Long countInProgress() throws ServiceException{
         try {
-            notes = dao.getAllOpen();
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error findUserNotes in NoteDao" + e.getMessage());
-            t.rollback();
+            return noteDAO.countInProgress();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ServiceException(e);
         }
-        return notes;
     }
 
-    public Long countAll() {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        Long count = null;
+    @Override
+    public Long countResolved() throws ServiceException {
         try {
-            count = dao.countAll();
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error countAllNote" + e.getMessage());
-            t.rollback();
+            return noteDAO.countResolved();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ServiceException(e);
         }
-        return count;
     }
 
-    public Long countAllopen() {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        Long count = null;
+    @Override
+    public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) throws ServiceException{
         try {
-            count = dao.countOpen();
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error countAllNote" + e.getMessage());
-            t.rollback();
-        }
-        return count;
-    }
+            return noteDAO.getPage(pageIndex, numberOfRecordsPerPage);
 
-    public Long countInProgress() {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        Long count = null;
-        try {
-            count = dao.countInProgress();
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error countAllNote" + e.getMessage());
-            t.rollback();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ServiceException(e);
         }
-        return count;
-    }
-
-    public Long countResolved() {
-        Session session = util.getSession();
-        t = session.beginTransaction();
-        Long count = null;
-        try {
-            count = dao.countResolved();
-            t.commit();
-            session.flush();
-        } catch (DaoException e) {
-            LOG.error("Error countAllNote" + e.getMessage());
-            t.rollback();
-        }
-        return count;
-    }
-
-    public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) {
-        List<Note> notes = null;
-        util.beginTransaction();
-        try {
-            notes = dao.getPage(pageIndex, numberOfRecordsPerPage);
-            util.commit();
-            util.getSession().flush();
-        } catch (DaoException e) {
-            util.rollback();
-        }
-        return notes;
     }
 }

@@ -13,7 +13,7 @@ public class CmdMain extends Action {
         UserService us = UserService.getService();
 
         req.setAttribute("allAds", ns.countAll());
-        req.setAttribute("openAds", ns.countAllopen());
+        req.setAttribute("openAds", ns.countAllOpen());
         req.setAttribute("workingAds", ns.countInProgress());
         req.setAttribute("closedAds", ns.countResolved());
         req.setAttribute("countOfUsers", us.allUserCount());

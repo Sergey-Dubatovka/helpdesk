@@ -20,31 +20,37 @@ import java.util.Set;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Getter @Setter
+    @Getter
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", unique = true)
     @Access(AccessType.PROPERTY)
     private Long userId;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "LOGIN")
     private String login;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "PASSWORD")
     private String password;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Column(name = "EMAIL")
     private String email;
 
-    @Getter @Setter
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @Getter
+    @Setter
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ROLE_ID")
     private UserRole userRole;
 
-    @Getter @Setter
-    @OneToMany(mappedBy = "user")
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Note> notes = new HashSet<>();
 
     public User(String login, String password, String email, UserRole userRole) {
@@ -61,6 +67,7 @@ public class User implements Serializable {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", userRole='" + userRole +
                 '}';
     }
 

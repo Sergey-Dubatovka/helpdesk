@@ -20,11 +20,11 @@ import java.util.List;
  * Created by sssergey83 on 05.02.2017.
  */
 @Repository
-public class NoteDAO extends BaseDao<Note> implements INoteDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(NoteDAO.class);
+public class NoteDAOImpl extends BaseDaoImpl<Note> implements INoteDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(NoteDAOImpl.class);
 
     @Autowired
-    public NoteDAO(SessionFactory sessionFactory) {
+    public NoteDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
@@ -43,6 +43,7 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         }
     }
 
+    @Override
     public List<Note> findUserNotes(Long where) throws DaoException {
         try {
             String hql = "FROM Note N WHERE N.user.userId=:user";
@@ -57,6 +58,7 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         }
     }
 
+    @Override
     public List<Note> getAllOpen() throws DaoException {
         try {
             String hql = "FROM Note N WHERE N.noteStatus.statusId<3L order by N.date DESC";
@@ -70,6 +72,7 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         }
     }
 
+    @Override
     public Long countAll() throws DaoException {
         Long result;
         try {
@@ -83,7 +86,8 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         return result;
     }
 
-    public Long countOpen() throws DaoException {
+    @Override
+    public Long countAllOpen() throws DaoException {
         Long result;
         try {
             Query query = getSession().createQuery("select count(*) from Note where noteStatus.statusId!=3L");
@@ -96,6 +100,7 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         return result;
     }
 
+    @Override
     public Long countInProgress() throws DaoException {
         Long result;
         try {
@@ -109,6 +114,7 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         return result;
     }
 
+    @Override
     public Long countResolved() throws DaoException {
         Long result;
         try {
@@ -122,6 +128,7 @@ public class NoteDAO extends BaseDao<Note> implements INoteDAO {
         return result;
     }
 
+    @Override
     public List<Note> getPage(int pageIndex, int numberOfRecordsPerPage) throws DaoException {
 
         Criteria criteria = getSession().createCriteria(Note.class);

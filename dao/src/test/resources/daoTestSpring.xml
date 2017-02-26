@@ -15,30 +15,30 @@
     <context:annotation-config/>
     <!--<aop:aspectj-autoproxy/>-->
 
-    <bean id="baseDao" class="com.pvt.dao.BaseDao">
+    <bean id="baseDao" class="com.pvt.dao.BaseDaoImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="userRoleDao" class="com.pvt.dao.UserRoleDAO">
+    <bean id="userRoleDao" class="com.pvt.dao.UserRoleDAOImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="userDao" class="com.pvt.dao.UserDAO">
+    <bean id="userDao" class="com.pvt.dao.UserDAOImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="noteDao" class="com.pvt.dao.NoteDAO">
+    <bean id="noteDao" class="com.pvt.dao.NoteDAOImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="noteStatusDao" class="com.pvt.dao.NoteStatusDAO">
+    <bean id="noteStatusDao" class="com.pvt.dao.NoteStatusDAOImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
-    <bean id="gamingClubDao" class="com.pvt.dao.GamingClubDAO">
+    <bean id="gamingClubDao" class="com.pvt.dao.GamingClubDAOImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="notePriorityDao" class="com.pvt.dao.NotePriorityDAO">
+    <bean id="notePriorityDao" class="com.pvt.dao.NotePriorityDAOImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
@@ -52,7 +52,7 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-        <property name="maximumPoolSize" value="10"/>
+        <property name="maximumPoolSize" value="20"/>
         <property name="connectionTimeout" value="30000"/>
         <property name="maxLifetime" value="30000"/>
         <property name="minimumIdle" value="2"/>
@@ -87,7 +87,7 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="connection.isolation">2</prop>
                 <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
             </props>
         </property>
     </bean>

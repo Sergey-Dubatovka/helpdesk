@@ -16,34 +16,31 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Repository
-public class BaseDao<T> implements IDao<T> {
-    private static final Logger LOG = LoggerFactory.getLogger(BaseDao.class);
+public class BaseDaoImpl<T> implements IDao<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(BaseDaoImpl.class);
     private SessionFactory sessionFactory;
-    private Session session;
+    Session session;
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Autowired
-    public BaseDao(SessionFactory sessionFactory) {
+    public BaseDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.session = sessionFactory.openSession();
     }
 
-    public Session getSession() {
-        return sessionFactory.getCurrentSession();
+    Session getSession() {
+        if (session == null) {
+            return sessionFactory.openSession();
+        } else {
+            return sessionFactory.getCurrentSession();
+        }
     }
 
     @Override
     public T saveOrUpdate(T t) throws DaoException {
         try {
-            getSession().update(t);
+            getSession().saveOrUpdate(t);
             LOG.info("saveOrUpdate(t):" + t);
+
         } catch (HibernateException e) {
             LOG.error("Error save or update in Dao" + e);
             throw new DaoException(e);
@@ -52,11 +49,11 @@ public class BaseDao<T> implements IDao<T> {
     }
 
     @Override
-    public T get(Serializable id) throws DaoException {
+    public T get(Class clazz, Serializable id) throws DaoException {
         LOG.info("Get class by id:" + id);
         T t;
         try {
-            t = (T) getSession().get(getPersistentClass(), id);
+            t = (T) getSession().get(clazz, id);
             LOG.info("get clazz:" + t);
         } catch (HibernateException e) {
             LOG.error("Error get " + getPersistentClass() + "in Dao" + e);
@@ -65,30 +62,17 @@ public class BaseDao<T> implements IDao<T> {
         return t;
     }
 
-    @Override
-    public T load(Serializable id) throws DaoException {
-        LOG.info("Load class by id:" + id);
-        T t;
-        try {
-            t = (T) getSession().load(getPersistentClass(), id);
-            LOG.info("load() clazz:" + t);
-        } catch (HibernateException e) {
-            LOG.error("Error load():" + getPersistentClass() + " in Dao " + e);
-            throw new DaoException(e);
-        }
-        return t;
-    }
 
     @Override
     public boolean delete(T t) throws DaoException {
         try {
             getSession().delete(t);
             LOG.info("Delete:" + t);
+            return true;
         } catch (HibernateException e) {
             LOG.error("Error delete():" + e);
             throw new DaoException(e);
         }
-        return true;
     }
 
     @Override
@@ -97,9 +81,9 @@ public class BaseDao<T> implements IDao<T> {
     }
 
     @Override
-    public List<T> getAll(String entity) throws DaoException {
+    public List<T> getAll(Class entity) throws DaoException {
         try {
-            String hql = "FROM " + entity;
+            String hql = "FROM " + entity.getSimpleName();
             Query query = getSession().createQuery(hql);
             query.setCacheable(true);
             List<T> t = query.list();

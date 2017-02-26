@@ -19,11 +19,11 @@ import java.util.List;
  * Created by sssergey83 on 04.02.2017.
  */
 @Repository
-public class UserDAO extends BaseDao<User> implements IUserDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
+public class UserDAOImpl extends BaseDaoImpl<User> implements IUserDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 
     @Autowired
-    private UserDAO(SessionFactory sessionFactory) {
+    private UserDAOImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
