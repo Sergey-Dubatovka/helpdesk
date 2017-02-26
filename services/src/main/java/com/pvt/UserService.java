@@ -8,14 +8,19 @@ import com.pvt.interfaces.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Created by sssergey83 on 16.01.2017.
+ * Created on 16.01.2017.
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class UserService extends BaseService<User> implements IUserService {
 
     private static Logger log = LoggerFactory.getLogger(UserService.class);
-    private static final String salt = "salt";
+ //   private static final String salt = "salt";
 
     @Autowired
     IUserDAO userDAO;

@@ -1,4 +1,4 @@
-package com.pvt.command;
+package com.pvt.controller.command;
 
 public interface Patterns {
     String LOGIN="[a-zA-Z0-9-_.]+";

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by sssergey83 on 05.02.2017.
+ * Created on 05.02.2017.
  */
 @Repository
 public class GamingClubDAOImpl extends BaseDaoImpl<GamingClub> implements IGamingClubDAO {

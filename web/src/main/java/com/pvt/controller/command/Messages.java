@@ -1,4 +1,4 @@
-package com.pvt.command;
+package com.pvt.controller.command;
 
 public interface Messages {
     String msgMessage="jsp_message";

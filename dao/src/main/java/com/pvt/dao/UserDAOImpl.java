@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by sssergey83 on 04.02.2017.
+ * Created on 04.02.2017.
  */
 @Repository
 public class UserDAOImpl extends BaseDaoImpl<User> implements IUserDAO {

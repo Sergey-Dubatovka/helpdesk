@@ -1,4 +1,4 @@
-package com.pvt.command;
+package com.pvt.controller.command;
 
 import com.pvt.NoteService;
 import com.pvt.UserService;

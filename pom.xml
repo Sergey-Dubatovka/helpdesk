@@ -29,7 +29,8 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+        for compile only-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

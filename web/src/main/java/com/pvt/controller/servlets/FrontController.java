@@ -1,4 +1,4 @@
-package com.pvt.command;
+package com.pvt.controller.servlets;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

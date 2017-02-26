@@ -8,17 +8,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by sssergey83 on 11.02.2017.
+ * Created on 11.02.2017.
  */
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class BaseService<T> implements IService<T> {
     private static Logger log = LoggerFactory.getLogger(BaseService.class);
+
+//    @Autowired
+//    TransactionTemplate transactionTemplate;
 
     @Autowired
     private IDao<T> baseDao;
@@ -34,6 +41,7 @@ public class BaseService<T> implements IService<T> {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public T get(Class clazz, Serializable id) throws ServiceException {
         try {
             return (T) baseDao.get(clazz, id);
@@ -54,6 +62,7 @@ public class BaseService<T> implements IService<T> {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public T find(String where) throws ServiceException {
         T t = null;
         try {
@@ -65,6 +74,7 @@ public class BaseService<T> implements IService<T> {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<T> getAll(Class clazz) throws ServiceException {
         try {
             return baseDao.getAll(clazz);

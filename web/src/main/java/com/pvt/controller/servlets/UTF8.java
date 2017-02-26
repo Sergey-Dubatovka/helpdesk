@@ -1,4 +1,4 @@
-package com.pvt.filter;
+package com.pvt.controller.servlets;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

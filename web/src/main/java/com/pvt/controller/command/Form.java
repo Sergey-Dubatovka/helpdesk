@@ -1,8 +1,7 @@
-package com.pvt.command;
+package com.pvt.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.Set;
 
 public class Form {
     static String getString(HttpServletRequest req,

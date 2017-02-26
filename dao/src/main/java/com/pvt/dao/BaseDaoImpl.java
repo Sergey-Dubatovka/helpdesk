@@ -40,7 +40,6 @@ public class BaseDaoImpl<T> implements IDao<T> {
         try {
             getSession().saveOrUpdate(t);
             LOG.info("saveOrUpdate(t):" + t);
-
         } catch (HibernateException e) {
             LOG.error("Error save or update in Dao" + e);
             throw new DaoException(e);

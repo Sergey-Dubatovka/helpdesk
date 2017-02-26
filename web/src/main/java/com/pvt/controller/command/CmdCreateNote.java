@@ -1,4 +1,4 @@
-package com.pvt.command;
+package com.pvt.controller.command;
 
 import com.pvt.GamingClubService;
 import com.pvt.NotePriorityService;
@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.Set;
 
 public class CmdCreateNote extends Action {

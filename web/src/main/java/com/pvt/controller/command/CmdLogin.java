@@ -1,4 +1,4 @@
-package com.pvt.command;
+package com.pvt.controller.command;
 
 import com.pvt.UserService;
 import com.pvt.beans.User;
@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 public class CmdLogin extends Action {
     private static final Logger LOG = LoggerFactory.getLogger(CmdLogin.class);

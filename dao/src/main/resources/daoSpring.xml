@@ -23,8 +23,8 @@
         <property name="connectionTimeout" value="30000"/>
         <property name="maxLifetime" value="30000"/>
         <property name="minimumIdle" value="2"/>
-        <property name="poolName" value="springHikariCP" />
-        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+        <property name="poolName" value="springHikariCP"/>
+        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"/>
         <property name="dataSourceProperties">
             <props>
                 <prop key="url">jdbc:mysql://localhost:2016/helpdeskSpring</prop>
@@ -34,12 +34,12 @@
         </property>
     </bean>
 
+    <!--предопределенное имя для dataSource-->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <constructor-arg ref="hikariConfig"/>
     </bean>
 
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
@@ -47,18 +47,23 @@
             </list>
         </property>
 
+        <!--предопределенное имя для hibernate.cfg.xml,
+        чтобы применить эту конфигурацию метод в LocalSessionFactoryBean - setHibernateProperties-->
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="debug">true</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="connection.isolation">2</prop>
+                <!--если целевыми объектами являются классы, а не интерфейсы.  cgiLib ускоряет работу-->
                 <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.cache.use_query_cache">true</prop>
-                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                </prop>
                 <prop key="net.sf.ehcache.configurationResourceName">/ehcache.xml</prop>
             </props>
         </property>

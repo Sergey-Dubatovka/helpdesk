@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by sssergey83 on 05.02.2017.
+ * Created on 05.02.2017.
  */
 @Repository
 public class NotePriorityDAOImpl extends BaseDaoImpl<NotePriority> implements INotePriorityDAO {
