@@ -1,6 +1,6 @@
-<%@ page language="java" pageEncoding="UTF-8" %>
-<%@ include file="include/begin-html.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          version="2.0">
 <!-- Основное содержимое -->
 
 <head>
@@ -8,8 +8,9 @@
 </head>
 <div>
 <div class="page-header">
-    <legend>Здесь вы можете рассказать о своей проблеме.
-    </legend>
+    Hello ${greeting}
+    <h4>Здесь вы можете рассказать о своей проблеме.
+    </h4>
     <!--h4>Не гарантируем, что к Вам выедет специалист, так как проект учебный, но заявку примем.</h4>
     <br-->
     <h5>1. Чтобы подать заявку необходимо быть зарегистрированным пользователем. </h5>
@@ -23,4 +24,4 @@
 </div>
 </div>
 
-<%@ include file="include/end-html.jsp" %>
+</jsp:root>

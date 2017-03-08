@@ -1,10 +1,11 @@
-package com.pvt;
+package com.pvt.services;
 
 import com.pvt.beans.User;
 import com.pvt.dao.exceptions.DaoException;
 import com.pvt.dao.interfaces.IUserDAO;
-import com.pvt.exceptions.ServiceException;
-import com.pvt.interfaces.IUserService;
+
+import com.pvt.services.exceptions.ServiceException;
+import com.pvt.services.interfaces.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

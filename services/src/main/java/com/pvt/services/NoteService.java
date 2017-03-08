@@ -1,9 +1,9 @@
-package com.pvt;
+package com.pvt.services;
 
 import com.pvt.beans.Note;
 import com.pvt.dao.interfaces.INoteDAO;
-import com.pvt.exceptions.ServiceException;
-import com.pvt.interfaces.INoteService;
+import com.pvt.services.exceptions.ServiceException;
+import com.pvt.services.interfaces.INoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

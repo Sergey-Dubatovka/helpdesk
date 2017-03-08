@@ -1,0 +1,51 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:s="http://www.springframework.org/tags/form"
+          xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+
+<jsp:output doctype-public="-//W3C//DTD XHTML 1.1//EN"
+            doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+            doctype-root-element="html" omit-xml-declaration="false"/>
+<jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
+
+<!-- Основное содержимое -->
+<head>
+    <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
+</head>
+<div>
+    <div class="page-header">
+        <h3>Система заявок</h3>
+        <h4>Статистика</h4>
+
+        <h5>Всего заявок в системе:${allAds}</h5>
+
+        <h5>
+            Открытые заявки:
+            ${openAds}</h5>
+        <h5>
+            Из них выполняются:
+            ${workingAds}</h5>
+        <h5>
+            Всего заявок выполнено:
+            ${closedAds}</h5>
+
+
+        <h5>
+            Всего пользователей в системе:
+            ${countOfUsers}</h5>
+        <h5>
+            Менеджеров:
+            ${countOfManagers}</h5>
+        <h5>
+            Исполнителей:
+            ${countOfWorkers}</h5>
+        <h5>
+            Директор: ${director}
+        </h5>
+
+
+    </div>
+</div>
+
+</jsp:root>
+

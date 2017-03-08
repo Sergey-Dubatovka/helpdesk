@@ -1,15 +1,16 @@
 package com.pvt.controller.command;
 
-import com.pvt.GamingClubService;
-import com.pvt.NotePriorityService;
-import com.pvt.NoteService;
-import com.pvt.NoteStatusService;
+import com.pvt.services.GamingClubService;
+import com.pvt.services.NotePriorityService;
+import com.pvt.services.NoteService;
+import com.pvt.services.NoteStatusService;
 import com.pvt.beans.*;
+import com.pvt.services.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Set;
+import java.util.List;
 
 public class CmdCreateNote extends Action {
     private static final Logger LOG = LoggerFactory.getLogger(CmdCreateNote.class);
@@ -23,15 +24,20 @@ public class CmdCreateNote extends Action {
     private Note note;
 
     @Override
-    Action execute(HttpServletRequest req) {
+    public Action execute(HttpServletRequest req) {
 
-        Set<GamingClub> gamingClubs = gamingClubService.getAll();
+        List<GamingClub> gamingClubs = null;
+        try {
+            gamingClubs = gamingClubService.getAll(GamingClub.class);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         req.setAttribute("gamingClubs", gamingClubs);
 
         if (Form.isPost(req)) {
             try {
-                NoteStatus openStatus = noteStatusService.get(OPEN_ID); //status = open
-                NotePriority lowPriority = notePriorityService.get(LOW_ID);//priority = low
+                NoteStatus openStatus = noteStatusService.get(Note.class, OPEN_ID); //status = open
+                NotePriority lowPriority = notePriorityService.get(NotePriority.class, LOW_ID);//priority = low
                 User currentUser = (User) req.getSession().getAttribute("loggedUser");
 
                 String subject = req.getParameter("subject");

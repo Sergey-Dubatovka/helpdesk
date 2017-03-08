@@ -1,0 +1,13 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          version="2.0">
+
+    <footer class="navbar-fixed-bottom row-fluid">
+        <div class="container">
+            <h6>${jsp_message==null? "":"Сообщение сервера: "}${jsp_message}</h6>
+            <h6>${jsp_error==null?"" :"Error:"}</h6>${jsp_error}
+
+            <h6>IT-academy © 2016 <a href="#">email: sssergey83@gmail.com </a></h6>
+        </div>
+    </footer>
+</jsp:root>

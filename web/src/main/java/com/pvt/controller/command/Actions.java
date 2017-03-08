@@ -16,7 +16,7 @@ public enum Actions {
 
 protected Action action=null;
 
-static Action defineFrom(HttpServletRequest req){
+public static Action defineFrom(HttpServletRequest req){
 
     Action result;
 

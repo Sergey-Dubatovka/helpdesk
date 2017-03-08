@@ -3,7 +3,7 @@ package com.pvt.controller.command;
 import javax.servlet.http.HttpServletRequest;
 
 abstract public class Action {
-    abstract Action execute(HttpServletRequest req);
+    public abstract Action execute(HttpServletRequest req);
 
     public Action getRedirectAction() {
         return redirectAction;
@@ -17,16 +17,15 @@ abstract public class Action {
 
     @Override
     public String toString() {
-        String name=this.getClass().getSimpleName();
-        name=name.replace("Cmd","");
+        String name = this.getClass().getSimpleName();
+        name = name.replace("Cmd", "");
         return name;
     }
 
-    public String getJsp(){
-        String name=this.toString().toLowerCase();
-        return "/"+ name+".jsp";
+    public String getJsp() {
+        String name = this.toString().toLowerCase();
+        return "/" + name + ".jsp";
     }
-
 
 
 }

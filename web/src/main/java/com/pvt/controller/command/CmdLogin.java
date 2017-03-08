@@ -1,9 +1,11 @@
 package com.pvt.controller.command;
 
-import com.pvt.UserService;
+import com.pvt.services.UserService;
 import com.pvt.beans.User;
+import com.pvt.services.exceptions.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +13,12 @@ import javax.servlet.http.HttpSession;
 
 public class CmdLogin extends Action {
     private static final Logger LOG = LoggerFactory.getLogger(CmdLogin.class);
-    UserService userService = UserService.getService();
+
+    @Autowired
+    UserService userService;
 
     @Override
-    Action execute(HttpServletRequest req) {
+    public Action execute(HttpServletRequest req) {
         User userFromJsp = new User();
         if (Form.isPost(req)) {
             try {
@@ -27,9 +31,14 @@ public class CmdLogin extends Action {
                 return null;
             }
 
-          User loggedUser = userService.find(userFromJsp.getLogin());
+            User loggedUser = null;
+            try {
+                loggedUser = userService.find(userFromJsp.getLogin());
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
 
-            if (loggedUser!=null) {
+            if (loggedUser != null) {
                 if (loggedUser.getPassword().equals(userFromJsp.getPassword())) {
 
                     HttpSession session = req.getSession();
@@ -40,7 +49,8 @@ public class CmdLogin extends Action {
                 } else req.setAttribute(Messages.msgError, "NO SUCH USER");
             }
 
-        }return null;
+        }
+        return null;
     }
 }
 

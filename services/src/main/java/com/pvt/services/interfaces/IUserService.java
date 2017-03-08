@@ -1,7 +1,7 @@
-package com.pvt.interfaces;
+package com.pvt.services.interfaces;
 
 import com.pvt.beans.User;
-import com.pvt.exceptions.ServiceException;
+import com.pvt.services.exceptions.ServiceException;
 
 /**
  * Created on 26.02.2017.

@@ -12,18 +12,15 @@
 
     <import resource="classpath*:serviceSpring.xml"/>
 
-    <context:component-scan base-package="com.pvt.controller"/>
-
     <mvc:resources mapping="/resources/**" location="assests"/>
-    <mvc:default-servlet-handler/>
+    <mvc:default-servlet-handler />
     <mvc:annotation-driven/>
-
-
+    <context:component-scan base-package="com.pvt.controller"/>
 
     <bean id="tilesConfigurer"
           class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions">
-                <value>/WEB-INF/tiles.xml</value>
+            <value>/WEB-INF/tiles.xml</value>
         </property>
     </bean>
 

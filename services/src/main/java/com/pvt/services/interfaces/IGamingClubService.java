@@ -1,4 +1,4 @@
-package com.pvt.interfaces;
+package com.pvt.services.interfaces;
 
 import com.pvt.beans.GamingClub;
 

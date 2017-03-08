@@ -1,6 +1,6 @@
-package com.pvt.interfaces;
+package com.pvt.services.interfaces;
 
-import com.pvt.exceptions.ServiceException;
+import com.pvt.services.exceptions.ServiceException;
 
 import java.io.Serializable;
 import java.util.List;

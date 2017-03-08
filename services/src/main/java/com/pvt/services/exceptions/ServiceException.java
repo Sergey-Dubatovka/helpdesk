@@ -1,4 +1,4 @@
-package com.pvt.exceptions;
+package com.pvt.services.exceptions;
 
 /**
  * Created by sssergey83 on 05.02.2017.

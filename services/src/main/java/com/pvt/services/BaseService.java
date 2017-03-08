@@ -1,16 +1,15 @@
-package com.pvt;
+package com.pvt.services;
 
 import com.pvt.dao.exceptions.DaoException;
 import com.pvt.dao.interfaces.IDao;
-import com.pvt.exceptions.ServiceException;
-import com.pvt.interfaces.IService;
+import com.pvt.services.exceptions.ServiceException;
+import com.pvt.services.interfaces.IService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,8 +26,10 @@ public class BaseService<T> implements IService<T> {
 //    @Autowired
 //    TransactionTemplate transactionTemplate;
 
-    @Autowired
     private IDao<T> baseDao;
+
+    public BaseService() {
+    }
 
     @Override
     public T saveOrUpdate(T t) throws ServiceException {

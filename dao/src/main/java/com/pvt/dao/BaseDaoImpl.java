@@ -21,7 +21,6 @@ public class BaseDaoImpl<T> implements IDao<T> {
     private SessionFactory sessionFactory;
     Session session;
 
-
     @Autowired
     public BaseDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
